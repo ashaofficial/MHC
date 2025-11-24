@@ -1,0 +1,60 @@
+/* Login page styles aligning with dashboard colors */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eaefec; /* page background requested */
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container { padding-top: 40px; padding-bottom: 40px; }
+
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.card-header {
+    background: #9daea4; /* header color */
+    color: #0a2a16; /* sidebar color used as dark text */
+    font-weight: 700;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-align: center;
+}
+
+.card-body { padding: 26px;
+    background-color: #aec1b6;
+ }
+
+input.form-control {
+    border-radius: 8px;
+    border: 1px solid rgba(10,42,22,0.15);
+}
+
+input.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(10,42,22,0.12);
+    border-color: #0a2a16;
+}
+
+.btn-primary {
+    background-color: #29603e; /* sidebar color for primary CTA */
+    border-color: #0a2a16;
+    color: #fff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-weight: 600;
+}
+
+.btn-primary:hover, .btn-primary:focus {
+    background-color: #0d3520;
+    border-color: #062012;
+    color: #fff;
+}
+
+#msg { min-height: 1.25rem; }
+
+@media (max-width: 576px) {
+    .container { padding-top: 20px; padding-bottom: 20px; }
+}

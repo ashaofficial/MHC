@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+<link rel="stylesheet"
+ href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+ 
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+
+            <div class="card shadow">
+                <div class="card-header text-center">
+                    <h4>Login</h4>
+                </div>
+
+                <div class="card-body">
+                    <form id="loginForm">
+
+                        <div class="mb-3">
+                            <label>Username</label>
+                            <input name="username" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" required>
+                        </div>
+
+                        <button class="btn btn-primary w-100" type="submit">
+                            Login
+                        </button>
+
+                    </form>
+
+                    <div id="msg" class="text-danger text-center mt-3"></div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("loginForm").onsubmit = function(e){
+    e.preventDefault();
+
+    let formData = new FormData(this);
+
+    fetch("login.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(async r => {
+        const text = await r.text();
+        try {
+            const data = JSON.parse(text);
+            if (data.status === "success") {
+                // Server sets HttpOnly cookie; no client-side storage needed
+                // Redirect based on role (case-insensitive)
+                const role = (data.role || '').toString().toLowerCase();
+                if (role === "administrator") window.location = "administrator.php";
+                else if (role === "consultant") window.location = "consultant.php";
+                else if (role === "receptionist") window.location = "receptionist.php";
+                else window.location = "administrator.php";
+
+            } else {
+                document.getElementById("msg").innerText = data.message || JSON.stringify(data);
+            }
+        } catch (err) {
+            // Received non-JSON response (likely a PHP warning/error). Show it to the user for debugging.
+            document.getElementById("msg").innerText = text;
+            console.error('Non-JSON response from server:', text);
+        }
+    });
+};
+</script>
+
+</body>
+</html>
