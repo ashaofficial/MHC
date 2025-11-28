@@ -1,13 +1,17 @@
--- Create roles table
+create database PMS;
+use PMS;
+
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     role_name VARCHAR(100) NOT NULL UNIQUE,
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Create users table
+select * from roles;
+
+
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
@@ -17,45 +21,47 @@ CREATE TABLE users (
     description TEXT,
     doj DATE,
     dob DATE,
-    role_id INT,
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    role_id INT NOT NULL,
+    status ENUM('active','inactive') DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (role_id) REFERENCES roles(id)
-        ON DELETE SET NULL
-        ON UPDATE CASCADE
+    CONSTRAINT fk_user_role
+        FOREIGN KEY (role_id) REFERENCES roles(id)
+        ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
--- Create credential table
+select * from users;
+
 CREATE TABLE credential (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    username VARCHAR(100) UNIQUE NOT NULL,
+    username VARCHAR(100) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
     updated_on DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    CONSTRAINT fk_cred_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Create consultants table
+select * from credential;
+
 CREATE TABLE consultants (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    name VARCHAR(150) NOT NULL,
-    specialization VARCHAR(150),
-    status ENUM('active', 'inactive') DEFAULT 'active',
+    specialization VARCHAR(150) NOT NULL,
+    status ENUM('active','inactive') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    CONSTRAINT fk_consultant_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- Create user_session table
+select * from consultants;
+
 CREATE TABLE user_session (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -63,36 +69,99 @@ CREATE TABLE user_session (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     expires_at DATETIME NOT NULL,
 
-    FOREIGN KEY (user_id) REFERENCES users(id)
-        ON DELETE CASCADE
-        ON UPDATE CASCADE
+    CONSTRAINT fk_session_user
+        FOREIGN KEY (user_id) REFERENCES users(id)
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
--- ============================================
--- SAMPLE DATA INSERTION (Optional)
--- ============================================
+select * from consultants;
 
--- Insert roles
-INSERT INTO roles (role_name, status) VALUES 
-('administrator', 'active'),
-('consultant', 'active'),
-('receptionist', 'active');
+INSERT INTO roles (role_name, status, created_at, updated_at)
+VALUES
+('Administrator', 'active', NOW(), NOW()),
+('Receptionist', 'active', NOW(), NOW()),
+('Consultant', 'active', NOW(), NOW());
 
--- Insert sample users
-INSERT INTO users (name, mobile, email, role_id, status) VALUES 
-('Administrator', '9876543210', 'admin@mhc.com', 1, 'active'),
-('Consultant', '9876543211', 'john@mhc.com', 2, 'active'),
-('Receptionist', '9876543212', 'sarah@mhc.com', 3, 'active');
 
--- Insert credentials with hashed passwords
--- Password hashes below (all passwords are hashed using PHP password_hash with PASSWORD_DEFAULT)
--- admin username with password: admin@123
--- consultant1 username with password: consultant@123
--- receptionist1 username with password: receptionist@123
-INSERT INTO credential (user_id, username, password_hash) VALUES 
-(1, 'admin', '$2y$10$bL/VZEhgEF4K8V7J8xJ8FOzJ7K7K7K7K7K7K7K7K7K7K7K7K7K7K7'),
-(2, 'consultant1', '$2y$10$cM/WZEhgEF4K8V7J8xJ8FOzJ7K7K7K7K7K7K7K7K7K7K7K7K7K7K8'),
-(3, 'receptionist1', '$2y$10$dN/XZEhgEF4K8V7J8xJ8FOzJ7K7K7K7K7K7K7K7K7K7K7K7K7K7K9');
+INSERT INTO users (name, mobile, email, role_id, status, created_at, updated_at)
+VALUES ('Admin', '9999999999', 'admin@test.com', 1, 'active', NOW(), NOW());
 
--- Alternative: Use PHP to generate proper hashes
--- You can use the insert_credential.php script instead for secure hash generation
+
+INSERT INTO credential (user_id, username, password_hash, updated_on)
+VALUES (
+  7,  
+  'siva', 
+  '$2y$10$DEqs80nAod8khBt1fxaUxeVCrH/CWDvrVxC5jEoRBntnVmOqT5S02',
+  NOW()
+);
+
+
+CREATE TABLE patients (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+
+  visitor_date DATETIME,
+  name VARCHAR(255) NOT NULL,
+  father_spouse_name VARCHAR(255),
+  mobile_no VARCHAR(20),
+  email VARCHAR(255),
+
+  date_of_birth DATE,
+  age INT,
+  gender VARCHAR(20),
+  marital_status VARCHAR(30),
+  blood_group VARCHAR(10),
+
+  address TEXT,
+  city VARCHAR(100),
+  state VARCHAR(100),
+  occupation VARCHAR(100),
+
+  patient_type VARCHAR(50),
+
+  referred_by VARCHAR(255),
+  referred_person_mobile VARCHAR(20),
+
+  consultant_id INT,
+  consultant_doctor VARCHAR(255),
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  CONSTRAINT fk_consultant
+    FOREIGN KEY (consultant_id) REFERENCES consultants(id)
+    ON DELETE SET NULL
+    ON UPDATE CASCADE
+);
+
+select * from patients;
+
+CREATE TABLE IF NOT EXISTS medical_information (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  patient_id INT NOT NULL,
+
+  main_complaints TEXT,
+  other_complaint_1 VARCHAR(255),
+  other_complaint_2 VARCHAR(255),
+  other_complaint_3 VARCHAR(255),
+
+  medicine_1 VARCHAR(255),
+  medicine_1_date DATE,
+  medicine_2 VARCHAR(255),
+  medicine_2_date DATE,
+  medicine_3 VARCHAR(255),
+  medicine_3_date DATE,
+
+  pre_case_file VARCHAR(255),
+  case_file VARCHAR(255),
+  report_file VARCHAR(255),
+
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+  CONSTRAINT fk_medinfo_patient
+    FOREIGN KEY (patient_id) REFERENCES patients(id)
+    ON DELETE CASCADE,
+  UNIQUE KEY uniq_medinfo_patient (patient_id)
+);
+
+select * from medical_information;
