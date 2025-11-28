@@ -1,0 +1,300 @@
+/* Common dashboard styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    color: white;
+    padding: 30px 0;
+    height: 100vh;
+    overflow-y: auto;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.sidebar .brand {
+    padding: 0 20px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 20px;
+}
+
+.sidebar .brand h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+
+.sidebar .nav-menu { list-style: none; }
+.sidebar .nav-menu li { margin: 0; }
+
+.sidebar .nav-menu a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+}
+.sidebar .nav-menu a:hover { background-color: rgba(255,255,255,0.1); color: white; border-left-color: white; }
+.sidebar .nav-menu a.active { background-color: rgba(255,255,255,0.2); color: white; border-left-color: white; }
+.sidebar .nav-menu i { width: 25px; margin-right: 15px; text-align: center; }
+
+.main-content {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.navbar {
+    background: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.navbar .navbar-title { font-size: 1.5rem; font-weight: 600; color: #333; margin: 0; }
+.navbar .navbar-right { display:flex; align-items:center; gap:20px; }
+
+.profile-menu { display:flex; align-items:center; gap:10px; padding:10px 15px; background-color:#737373; border-radius:8px; cursor:pointer; transition:background-color .3s; }
+.profile-menu:hover { background-color:#949494; }
+.profile-icon { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:1.2rem; }
+.profile-dropdown { position:relative; display:inline-block; }
+.dropdown-content { display:none; position:absolute; right:0; background-color:white; min-width:200px; box-shadow:0 8px 16px rgba(0,0,0,0.1); padding:12px 0; z-index:1; border-radius:8px; border:1px solid #e0e0e0; }
+.dropdown-content a, .dropdown-content button { color:#333; padding:12px 20px; text-decoration:none; display:flex; align-items:center; gap:10px; width:100%; border:none; background:none; cursor:pointer; font-size:.95rem; }
+.dropdown-content a:hover, .dropdown-content button:hover { background-color:#f9f9f9; }
+.dropdown-content button { color:#dc3545; }
+.profile-dropdown:hover .dropdown-content { display:block; }
+
+.content { flex:1; padding:30px; overflow-y:auto; }
+.content-card { background:white; padding:30px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+.content-card h2 { color:#333; margin-bottom:20px; font-weight:600; }
+
+.welcome-box { color:white; padding:30px; border-radius:10px; margin-bottom:20px; }
+.welcome-box h1 { margin:0 0 10px 0; font-size:2rem; font-weight:700; }
+.welcome-box p { margin:0; opacity:.9; }
+
+.profile-name { font-weight:600; color:#070707; font-size:.95rem; }
+.profile-role { font-size:.85rem; color:#dcdbdb; }
+
+@media (max-width:768px) {
+    .sidebar { width:0; overflow:hidden; }
+    .main-content { margin-left:0; width:100%; }
+    .navbar { padding:15px 15px; }
+    .content { padding:15px; }
+}
+
+/* Role-specific colors */
+.role-admin .sidebar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.role-admin .profile-icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.role-admin .welcome-box { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+
+.role-consultant .sidebar { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.role-consultant .profile-icon { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.role-consultant .welcome-box { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+
+.role-receptionist .sidebar { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.role-receptionist .profile-icon { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.role-receptionist .welcome-box { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+
+/* Global color overrides requested by user (kept at end to override role-specific rules) */
+body {
+    background-color: #d5dcd8 !important;
+}
+
+.sidebar {
+    background: #0a2a16 !important;
+}
+
+.navbar {
+    background: #9daea4 !important;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.profile-icon {
+    background: #cbc695 !important;
+    color: #000 !important;
+}
+
+.welcome-box { /* make sure welcome box readable on new sidebar/header */
+    color: #ffffff;
+}
+
+/* When sidebar collapsed keep icons visible */
+body.sidebar-collapsed .sidebar .nav-menu i { margin-right: 0; text-align:center; }
+
+/* ============= MODERN TABLE STYLES ============= */
+.table {
+    background-color: #fff;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.table thead th {
+    padding: 1rem;
+    border: none;
+    font-weight: 600;
+    color: white;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9ff;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.table tbody td {
+    padding: 0.9rem 1rem;
+    vertical-align: middle;
+    color: #333;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f8f9ff;
+}
+
+.table.table-sm tbody td {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.95rem;
+}
+
+.table .badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.table .btn-sm {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.table .btn-outline-primary:hover {
+    background-color: #667eea;
+    border-color: #667eea;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.table .btn-outline-danger:hover {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    transform: translateY(-1px);
+}
+
+.table thead.table-light {
+    background: #f8f9ff;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.table thead.table-light th {
+    color: #333;
+    font-weight: 600;
+    border-bottom: 2px solid #667eea;
+    padding: 0.8rem 1rem;
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+    .table {
+        font-size: 0.9rem;
+    }
+    .table tbody td {
+        padding: 0.6rem 0.5rem;
+    }
+    .table .btn-sm {
+        padding: 0.3rem 0.5rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Role card collapse behaviour (used by Settings role cards when loaded into Admin page) */
+.role-header {
+    background: #f8f9fa;
+    color: #000;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    padding-right: 3rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.role-header.collapsed {
+    min-height: 50px;
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.role-header.expanded {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.role-header .role-title {
+    margin: 0;
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+.role-toggle {
+    border-radius: 6px;
+    flex-shrink: 0;
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.role-contents {
+    transition: max-height 0.35s ease;
+    overflow: hidden;
+    padding: 1rem 1.25rem;
+}
+
+.role-contents.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    overflow: hidden;
+}
