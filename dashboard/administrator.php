@@ -95,12 +95,19 @@ async function loadSettings() {
 
     contentArea.innerHTML = `
         <div class="container-fluid">
-            <h2>Settings</h2>
-            <ul class="nav nav-tabs mt-3 mb-3">
-                <li class="nav-item"><a class="nav-link active" id="users-tab" data-bs-toggle="tab" href="#users">Users</a></li>
-                <li class="nav-item"><a class="nav-link" id="roles-tab" data-bs-toggle="tab" href="#roles">Roles</a></li>
-                <li class="nav-item"><a class="nav-link" id="consultants-tab" data-bs-toggle="tab" href="#consultants">Consultants</a></li>
-            </ul>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="mb-0">Settings</h2>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <ul class="nav nav-tabs mt-3 mb-3">
+                    <li class="nav-item"><a class="nav-link active" id="users-tab" data-bs-toggle="tab" href="#users">Users</a></li>
+                    <li class="nav-item"><a class="nav-link" id="roles-tab" data-bs-toggle="tab" href="#roles">Roles</a></li>
+                    <li class="nav-item"><a class="nav-link" id="consultants-tab" data-bs-toggle="tab" href="#consultants">Consultants</a></li>
+                </ul>
+                <div class="mb-3">
+                    <button id="addUserBtn" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Add User</button>
+                </div>
+            </div>
 
             <div class="tab-content mt-3">
                 <div class="tab-pane fade show active" id="users"><div id="usersPane">Loading users...</div></div>
