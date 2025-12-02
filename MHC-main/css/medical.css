@@ -1,0 +1,143 @@
+/* Medical information page specific styles */
+
+/* Medical label spacing */
+.med-label-spacing {
+    margin-right: 65px;
+}
+
+/* Medical page wrapper */
+.med-page-wrapper {
+    background-color: #f5f5f5;
+    min-height: 100vh;
+}
+
+/* Medical header */
+.med-header {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.med-header-left {
+    flex: 1;
+}
+
+.med-name-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.med-patient-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.med-label {
+    font-weight: 500;
+    color: #666;
+}
+
+.med-value {
+    color: #333;
+    font-weight: 400;
+}
+
+.med-sub-row {
+    margin-top: 0.5rem;
+}
+
+.med-patient-id {
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.med-header-right {
+    text-align: right;
+}
+
+.med-date-display {
+    max-width: 200px;
+}
+
+/* Medical form sections */
+.med-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.med-section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+/* Other complaints list */
+.other-complaints-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.oc-number {
+    min-width: 24px;
+    font-weight: 600;
+    color: #666;
+}
+
+/* Medicine rows */
+.med-medicine-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.med-row-number {
+    min-width: 24px;
+    font-weight: 600;
+    color: #666;
+}
+
+/* File rows */
+.med-file-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.med-file-inline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.med-file-label {
+    min-width: 120px;
+    font-weight: 500;
+    color: #666;
+}
+
+.med-file-input {
+    flex: 1;
+}
+
+.med-file-icon {
+    color: #dc3545;
+    font-size: 1.25rem;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.med-file-icon:hover {
+    color: #c82333;
+}
+

@@ -1,0 +1,144 @@
+/* -------- THEME VARIABLES -------- */
+:root {
+    --green-dark: #022612;
+    --green-dark-2: #06361d;
+    --green-main: #0e7c3f;
+    --green-soft: #d5f0df;
+    --green-pale: #f6f7e7;
+    --text-main: #1e293b;
+    --text-muted: #6b7280;
+    --card-bg: #f1f5f9;
+    --border-soft: #d1d5db;
+    --white: #ffffff;
+}
+
+/* -------- GLOBAL -------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Cambria, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #e2f0e8;
+    color: var(--text-main);
+}
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* -------- MAIN CONTENT -------- */
+
+.main-content {
+    flex: 1;
+    padding: 24px 36px 40px;
+    background: #e2f0e8;
+}
+
+/* header */
+
+.main-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 28px;
+    color: #064e3b;
+}
+
+.welcome-text {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.current-date {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* -------- FORM CARD -------- */
+
+.form-card {
+    background: var(--card-bg);
+    border-radius: 18px;
+    padding: 20px 22px;
+    border: 1px solid var(--border-soft);
+}
+
+/* labels + controls */
+
+.form-label-custom {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark-2);
+}
+
+.form-control-custom {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(148, 163, 184, 0.8);
+    background: #f9fafb;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-control-custom:focus {
+    border-color: var(--green-main);
+    box-shadow: 0 0 0 1px rgba(14, 124, 63, 0.25);
+}
+
+/* textarea */
+textarea.form-control-custom {
+    resize: vertical;
+    min-height: 70px;
+}
+
+/* buttons */
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: var(--green-main);
+    color: var(--white);
+}
+
+.btn.primary:hover {
+    filter: brightness(0.95);
+}
+
+.btn.secondary {
+    background: #4b5563;
+    color: #e5e7eb;
+}
+
+.btn.secondary:hover {
+    filter: brightness(0.95);
+}
+
+/* -------- RESPONSIVE -------- */
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 16px;
+    }
+}

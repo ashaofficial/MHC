@@ -1,0 +1,94 @@
+/* patient_files_viewer.css - minimal, clean styling */
+
+/* page wrapper card */
+.card-wrap {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid rgba(14,124,63,0.06);
+}
+
+/* filters area */
+.filters {
+  background: #f8faf8;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(14,124,63,0.04);
+  margin-bottom: 14px;
+}
+.filters .form-control,
+.filters .form-select {
+  border-radius: 999px;
+  height: 44px;
+  padding: 8px 14px;
+  border: 1px solid rgba(14,124,63,0.08);
+  box-shadow: none;
+}
+
+/* buttons color: #0e7c3f */
+.btn-search {
+  background: #0e7c3f;
+  color: #fff;
+  border: 1px solid rgba(14,124,63,0.08);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-weight: 600;
+}
+.btn-clear {
+  display: inline-block;
+  text-align: center;
+  background: transparent;
+  color: #0e7c3f;
+  border: 1px solid #0e7c3f;
+  border-radius: 999px;
+  padding: 8px 18px;
+}
+.btn-clear:hover {
+  background: #0e7c3f;
+  color: #fff;
+}
+
+/* cards and file layout */
+.patient-card {
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid rgba(14,124,63,0.04);
+  overflow: hidden;
+}
+.patient-header {
+  padding: 10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom: 1px solid rgba(14,124,63,0.04);
+}
+.files {
+  padding: 12px;
+}
+.file-item {
+  display:flex;
+  gap:12px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid rgba(14,124,63,0.03);
+  margin-bottom:8px;
+  align-items:center;
+}
+.file-icon {
+  width:44px;height:44px;
+  border-radius:8px;
+  background: rgba(14,124,63,0.06);
+  color: #0e7c3f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* empty state */
+.empty {
+  padding:22px;
+  border-radius:8px;
+  border:1px dashed rgba(14,124,63,0.06);
+  text-align:center;
+  color:#4b5563;
+}

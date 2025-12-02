@@ -1,0 +1,268 @@
+/* ===== PATIENT PROFILE – LAYOUT & TAB CARD DESIGN ===== */
+
+/* page wrapper around everything on patient.php */
+.patient-page-wrapper {
+    max-width: 1100px;
+    margin: 20px auto 28px;
+    padding: 0 12px;
+    background: #e3eee7;
+}
+
+/* ----- HEADER (name + back button) AS SEPARATE CARD ----- */
+
+.patient-header {
+    background: #cfdad2;
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 100px;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(148, 163, 184, 0.45);
+}
+
+.patient-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #102a23;
+    margin: 0;
+}
+
+.patient-id-text {
+    font-size: 0.95rem;
+    color: #4b6158;
+}
+
+.btn-back-list {
+    background: #6b7280;
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 8px 16px;
+    text-decoration: none;
+    font-weight: 500;
+    border: none;
+}
+
+.btn-back-list:hover {
+    background: #4b5563;
+    color: #ffffff;
+}
+
+/* ----- TABS STRIP ----- */
+
+.patient-tabs {
+    margin-top: 12px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+}
+
+/* bootstrap nav-tabs override only for this bar */
+.patient-tabs .nav-tabs {
+    border-bottom: none;
+}
+
+.patient-tabs .nav-link {
+    border: none;
+    border-bottom: 2px solid transparent;
+    background: transparent;
+    color: #4b5563;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.6rem 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 0;
+    transition: all 0.2s ease;
+}
+
+.patient-tabs .nav-link .tab-icon {
+    font-size: 1.1rem;
+}
+
+/* hover color even when the tab is not active */
+.patient-tabs .nav-link:hover {
+    color: #0b3c1f;
+    border-color: rgba(21, 128, 61, 0.45);
+   
+}
+
+/* active tab */
+.patient-tabs .nav-link.active {
+    color: #0b3c1f;
+    border-color: #15803d; /* accent underline */
+    
+}
+
+/* keep keyboard focus nice */
+.patient-tabs .nav-link:focus-visible {
+    outline: 2px solid rgba(21, 128, 61, 0.8);
+    outline-offset: 2px;
+}
+
+/* ----- TAB CONTENT AREA (CARD LOOK) ----- */
+
+.patient-tab-content {
+    margin-top: 12px;
+}
+
+/* give each tab-pane a soft card background */
+.patient-tab-content .tab-pane {
+    background: #dde4df;
+    border-radius: 16px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    padding: 18px 18px 20px;
+    box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+}
+
+/* make sure fade + show from Bootstrap still work */
+.patient-tab-content .tab-pane:not(.active) {
+    box-shadow: none;
+}
+
+/* section headings inside tab content */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0b3c1f;
+}
+
+/* ----- PERSONAL INFO GRID (read-only fields) ----- */
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin-top: 10px;
+}
+
+.info-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-label {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6b7280;
+    font-weight: 600;
+}
+
+.field-value {
+    padding: 7px 10px;
+    border-radius: 10px;
+    background-color: #f9fafb;
+    border: 1px solid #d1d5db;
+    font-size: 0.95rem;
+    color: #111827;
+    min-height: 36px;
+    display: flex;
+    align-items: flex-start;      /* allows multi-line values */
+    white-space: normal;         /* father name / address can wrap */
+}
+
+/* ----- MEDICAL INFO IFRAME TAB ----- */
+
+.med-info-frame {
+    width: 100%;
+    min-height: 700px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    /* visually inside the card */
+    box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.3);
+}
+
+/* ----- GENERIC TEXT IN OTHER TABS ----- */
+
+.tab-pane p.text-muted {
+    font-size: 0.95rem;
+}
+
+/* Bigger click area on small devices */
+.patient-tabs .nav-link {
+    min-height: 40px;
+}
+
+/* ===== EDIT BUTTON STYLING ===== */
+.btn-edit {
+    background: #15803d;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(21, 128, 61, 0.35);
+    transition: all 0.2s ease;
+}
+
+.btn-edit:hover {
+    background: #166534;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(21, 128, 61, 0.45);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media (max-width: 768px) {
+    .patient-page-wrapper {
+        margin-top: 10px;
+        padding: 0 8px;
+    }
+
+    .patient-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .patient-name {
+        font-size: 1.5rem;
+    }
+
+    .patient-tabs .nav-link {
+        font-size: 0.9rem;
+        padding-inline: 0.75rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; /* single column on mobile */
+    }
+
+    .patient-tab-content .tab-pane {
+        padding: 14px 12px 16px;
+        border-radius: 14px;
+    }
+}
+
+.inner-tab-frame {
+    width: 100%;
+    height: 680px;
+    border: 0;
+    overflow: auto;
+}
+
+
+/* allow horizontal scroll of tab buttons on very small screens */
+@media (max-width: 480px) {
+    .patient-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .patient-tabs .nav-tabs {
+        flex-wrap: nowrap;
+    }
+
+    .patient-tabs .nav-link {
+        padding-inline: 0.6rem;
+    }
+}

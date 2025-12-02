@@ -1,0 +1,174 @@
+/* Shared patient area styling */
+
+body.patient-surface {
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #0a2a16;
+    background: transparent;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.patient-shell {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 48px;
+}
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(10, 42, 22, 0.12);
+    border-radius: 20px;
+    padding: 1.5rem;
+    backdrop-filter: blur(8px);
+}
+
+.patient-shell h1,
+.patient-shell h2,
+.patient-shell h3 {
+    color: #0a2a16;
+    margin: 0;
+}
+
+.patient-shell .sub-text {
+    color: #4b5b52;
+    margin-top: 0.25rem;
+}
+
+.patient-directory-panel .filter-bar,
+.patient-form-card,
+.patient-files-card {
+    border: 1px solid rgba(10, 42, 22, 0.12);
+    border-radius: 18px;
+    padding: 1.75rem;
+    background: transparent;
+    margin-bottom: 1.5rem;
+}
+
+.filter-bar form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.filter-bar input,
+.filter-bar button,
+.filter-bar select {
+    border-radius: 999px;
+    border: 1px solid rgba(10, 42, 22, 0.18);
+    padding: 0.65rem 1.1rem;
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.patient-result-card {
+    border: 1px solid rgba(10, 42, 22, 0.18);
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background: transparent;
+    transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.patient-result-card strong {
+    font-size: 1.05rem;
+}
+
+.patient-card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
+.patient-card-link:hover .patient-result-card {
+    border-color: #29603e;
+    transform: translateX(6px);
+}
+
+.patient-form-card .card-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+
+.patient-form-card .form-control,
+.patient-form-card .form-select,
+.patient-form-card textarea {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 12px;
+}
+
+.patient-form-card .btn-add {
+    background-color: #29603e;
+    color: #fff;
+    border-radius: 999px;
+    padding: 0.65rem 1.75rem;
+}
+
+.patient-form-card .btn-add:hover {
+    background-color: #0d3520;
+}
+
+.patient-form-card .btn-cancel {
+    border: 1px solid rgba(10, 42, 22, 0.25);
+    border-radius: 999px;
+    padding: 0.65rem 1.75rem;
+    color: #0a2a16;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.patient-files-container {
+    background: transparent;
+    padding: 0;
+}
+
+.patient-files-container .patient-card {
+    border: 1px solid rgba(10, 42, 22, 0.12);
+    border-radius: 16px;
+    overflow: hidden;
+    background: transparent;
+    margin-bottom: 1rem;
+}
+
+.patient-files-container .patient-header {
+    background: linear-gradient(135deg, #29603e 0%, #0d3520 100%);
+    color: #fff;
+}
+
+.patient-files-container .file-item {
+    border: 1px solid rgba(10, 42, 22, 0.12);
+    border-radius: 10px;
+    background: transparent;
+}
+
+.patient-files-container .file-item:hover {
+    border-color: #29603e;
+}
+
+.patient-files-container .file-icon {
+    border-radius: 10px;
+    background: rgba(41, 96, 62, 0.12);
+    color: #29603e;
+}
+
+.patient-files-container .btn-file {
+    border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+    .patient-shell {
+        padding: 24px 16px 32px;
+    }
+
+    .glass-panel {
+        padding: 1.25rem;
+    }
+
+    .filter-bar form {
+        flex-direction: column;
+    }
+
+    .patient-form-card,
+    .patient-directory-panel .filter-bar {
+        padding: 1.25rem;
+    }
+}
+
