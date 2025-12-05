@@ -586,10 +586,10 @@ body {
 /* Table-like symptoms layout (compact) */
 .symptoms-table {
   display: grid;
-  gap: 6px;
+  gap: 4px;
   width: 100%;
-  border-radius: 8px;
-  padding: 8px;
+  border-radius: 6px;
+  padding: 6px;
   background: #ffffff;
   border: 1px solid #e6f4ed;
   overflow-x: auto;
@@ -598,11 +598,11 @@ body {
 .symptoms-table-row {
   display: grid;
   /* compact: symptom name, three small status columns, then note area */
-  grid-template-columns: 120px 44px 44px 44px minmax(140px, 1fr);
+  grid-template-columns: 110px 40px 40px 40px minmax(120px, 1fr);
   align-items: center;
-  gap: 8px;
-  padding: 6px 8px;
-  min-width: 480px;
+  gap: 6px;
+  padding: 6px 6px;
+  min-width: 440px;
 }
 .symptoms-table-header {
   font-weight: 700;
@@ -614,18 +614,19 @@ body {
   font-weight: 600;
   font-size: 0.92rem;
   color: #111827;
-  padding-left: 6px;
+  padding-left: 4px;
 }
 .symptom-col-header.center,
 .symptom-option.center {
   text-align: center;
   font-size: 0.75rem;
+  margin-right: 580px;
 }
 .symptom-option {
   display: flex;
   justify-content: flex-start; /* align radios closer to symptom */
   align-items: center;
-  padding-left: 6px;
+  padding-left: 4px;
 }
 
 .symptom-note {
@@ -637,11 +638,11 @@ body {
 .symptom-note-input {
   width: 100%;
   max-width: 100%;
-  padding: 8px 10px;
+  padding: 6px 8px;
   border: 1px solid #d1d5db;
-  border-radius: 8px;
+  border-radius: 6px;
   font-size: 0.9rem;
-  min-height: 48px; /* slightly smaller for compact look */
+  min-height: 40px; /* compact height */
   resize: vertical;
 }
 
