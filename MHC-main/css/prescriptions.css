@@ -1,7 +1,0 @@
-/* prescriptions.css - small styles to match patient/case cards */
-.prescriptions-wrapper { max-width: 980px; margin: 8px auto; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
-.card { border-radius: 12px; }
-.rx-item { border-left: 4px solid #0b853a; }
-.prescriptions-wrapper .card p, .prescriptions-wrapper .card .small { color: #274c39; }
-#rx-form { background: #ffffff; border: 1px solid rgba(148,163,184,0.12); border-radius: 10px; padding: 12px; }
-@media (max-width: 768px) { .prescriptions-wrapper { padding: 8px; } }

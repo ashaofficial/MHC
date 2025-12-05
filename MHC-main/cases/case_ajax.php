@@ -32,8 +32,8 @@ $originalName = basename($file['name']);
 $tmp = $file['tmp_name'];
 $size = (int)$file['size'];
 
-if ($size <= 0 || $size > 50 * 1024 * 1024) { // 50MB limit
-    echo json_encode(['success' => false, 'message' => 'File size invalid (max 50MB)']);
+if ($size <= 0 || $size > 5 * 1024 * 1024) { // 5MB limit
+    echo json_encode(['success' => false, 'message' => 'File size invalid (max 5MB)']);
     exit;
 }
 
@@ -173,41 +173,18 @@ $sizeStr = round($size / 1024, 2) . " KB";
 $filePath = "medical/uploads/medical/" . $patientId . "/" . $safe;
 $createdBy = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
 
-// Convert file_type format
+// Map file_type: pre_case_taking, case_taking, reports
 $dbFileType = $fileType;
-if ($fileType === 'reports' || $fileType === 'report') {
-    $dbFileType = 'report';
-} elseif ($fileType === 'case_taking') {
-    $dbFileType = 'case_taking';
-} elseif ($fileType === 'pre_case_taking') {
+if (in_array($fileType, ['pre_case_taking', 'pre_case'], true)) {
     $dbFileType = 'pre_case_taking';
+} elseif (in_array($fileType, ['case_taking', 're_case', 're_case_taking'], true)) {
+    $dbFileType = 'case_taking';
+} elseif (in_array($fileType, ['reports', 'report'], true)) {
+    $dbFileType = 'report';
 }
 
-// Allow case_id to be NULL if not created
-if ($createdCaseId === null) {
-    $sql = "
-        INSERT INTO patient_files (
-            patient_id, case_id, file_type,
-            file_name, file_path, file_size, created_by,
-            created_at, updated_at
-        ) VALUES (?, NULL, ?, ?, ?, ?, ?, NOW(), NOW())
-    ";
-    $stmt = $conn->prepare($sql);
-    if (!$stmt) {
-        @unlink($dest);
-        echo json_encode(['success' => false, 'message' => 'Database error (prepare)']);
-        exit;
-    }
-    $stmt->bind_param(
-        "issssi",
-        $patientId,
-        $dbFileType,
-        $originalName,
-        $filePath,
-        $sizeStr,
-        $createdBy
-    );
-} else {
+// Insert into patient_files table (required table)
+if ($patientId > 0) {
     $sql = "
         INSERT INTO patient_files (
             patient_id, case_id, file_type,
@@ -218,38 +195,47 @@ if ($createdCaseId === null) {
     $stmt = $conn->prepare($sql);
     if (!$stmt) {
         @unlink($dest);
-        echo json_encode(['success' => false, 'message' => 'Database error (prepare)']);
+        echo json_encode(['success' => false, 'message' => 'Database error: ' . $conn->error]);
         exit;
     }
-    $cb = (int)$createdBy;
+
+    // If case_id is 0 or null, pass NULL to DB
+    $caseIdForDb = ($caseId > 0) ? $caseId : null;
+
     $stmt->bind_param(
-        "iissssi",
+        "iisssss",
         $patientId,
-        $createdCaseId,
+        $caseIdForDb,
         $dbFileType,
         $originalName,
         $filePath,
         $sizeStr,
-        $cb
+        $createdBy
     );
-}
 
-if (!$stmt->execute()) {
-    error_log("DB execute error: " . $stmt->error);
-    @unlink($dest);
-    echo json_encode(['success' => false, 'message' => 'Database save failed: ' . $stmt->error]);
+    if (!$stmt->execute()) {
+        error_log("DB execute error: " . $stmt->error);
+        @unlink($dest);
+        echo json_encode(['success' => false, 'message' => 'Database save failed: ' . $stmt->error]);
+        $stmt->close();
+        exit;
+    }
+
+    $fileId = $stmt->insert_id;
     $stmt->close();
-    exit;
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'File uploaded successfully',
+        'file_name' => $originalName,
+        'file_path' => $filePath,
+        'file_size' => $sizeStr,
+        'file_id' => $fileId,
+        'case_id' => $caseId,
+        'file_type' => $dbFileType
+    ]);
+} else {
+    @unlink($dest);
+    echo json_encode(['success' => false, 'message' => 'Invalid patient ID for file storage']);
 }
-
-$stmt->close();
-
-echo json_encode([
-    'success' => true,
-    'message' => 'File uploaded successfully',
-    'file_name' => $originalName,
-    'file_path' => $filePath,
-    'file_size' => $sizeStr,
-    'case_id' => $createdCaseId
-]);
 exit;

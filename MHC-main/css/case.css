@@ -1,375 +1,1376 @@
 /* Overall wrapper */
 .case-page-wrapper {
-    max-width: 100%;
-    margin: 0;
-    padding: 12px 14px 16px;
-    background: transparent;
+  max-width: 100%;
+  margin: 0;
+  padding: 12px 14px 16px;
+  background: transparent;
 }
 
 /* Header card at top */
 .case-header-card {
-    background: linear-gradient(135deg, #d9e7df 0%, #c5d7cd 100%);
-    border-radius: 14px;
-    padding: 16px 22px;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.10);
-    border: 1px solid rgba(148, 163, 184, 0.45);
-    margin-bottom: 16px;
+  background: linear-gradient(135deg, #d9e7df 0%, #c5d7cd 100%);
+  border-radius: 14px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.45);
+  margin-bottom: 16px;
+}
+
+/* Header top row - compact layout */
+.header-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.header-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0b3c1f;
+  white-space: nowrap;
+}
+
+.header-patient {
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+}
+
+.header-patient-id,
+.header-case-no,
+.header-visit-date {
+  color: #374151;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.header-divider {
+  color: #9ca3af;
+  opacity: 0.6;
+  font-size: 0.8rem;
+}
+
+/* Header bottom row - status */
+.header-bottom-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .case-title {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #0b3c1f;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #0b3c1f;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
 }
 
 .case-subline {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 10px;
-    font-size: 0.9rem;
-    color: #374151;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  font-size: 0.9rem;
+  color: #374151;
 }
 
 .case-patient-name {
-    font-weight: 600;
-    color: #1f2937;
+  font-weight: 600;
+  color: #1f2937;
 }
 
 .case-patient-id {
-    opacity: 0.85;
-    font-size: 0.85rem;
+  opacity: 0.85;
+  font-size: 0.85rem;
 }
 
 .case-pipe {
-    opacity: 0.5;
-    color: #9ca3af;
+  opacity: 0.5;
+  color: #9ca3af;
 }
 
 /* Status label and pill */
 .case-status-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #4b5563;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    margin-bottom: 6px;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #4b5563;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
 }
 
 .case-status-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 14px;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
 }
 
 .case-status-open {
-    background: #bbf7d0;
-    color: #166534;
-    box-shadow: 0 2px 6px rgba(34, 197, 94, 0.2);
+  background: #bbf7d0;
+  color: #166534;
+  box-shadow: 0 2px 6px rgba(34, 197, 94, 0.2);
 }
 
 .case-status-progress {
-    background: #fef3c7;
-    color: #92400e;
-    box-shadow: 0 2px 6px rgba(234, 179, 8, 0.2);
+  background: #fef3c7;
+  color: #92400e;
+  box-shadow: 0 2px 6px rgba(234, 179, 8, 0.2);
 }
 
 .case-status-closed {
-    background: #fecaca;
-    color: #991b1b;
-    box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
+  background: #fecaca;
+  color: #991b1b;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.2);
 }
 
 .case-meta-small {
-    font-size: 0.78rem;
-    color: #4b5563;
-    margin-top: 4px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  font-size: 0.78rem;
+  color: #4b5563;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* Main form card */
 .case-form-card {
-    background: #f3f5f4;
-    border-radius: 14px;
-    padding: 18px;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  background: #8ba397ff;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
 }
 
 /* Sections */
 .case-section {
-    background: #ffffff;
-    border-radius: 12px;
-    padding: 14px 16px;
-    border: 1px solid rgba(229, 231, 235, 0.8);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.case-section:first-of-type {
+  background: linear-gradient(135deg, #f0f8f6 0%, #e8f3f1 100%);
+  border: 2px solid #9daea4;
 }
 
 .case-section + .case-section {
-    margin-top: 12px;
+  margin-top: 12px;
 }
 
 .case-section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
 }
 
 .case-section-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: #0b3c1f;
-    display: flex;
-    align-items: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0b3c1f;
+  display: flex;
+  align-items: center;
 }
 
 .case-section-hint {
-    font-size: 0.8rem;
-    color: #6b7280;
-    display: flex;
-    align-items: center;
+  font-size: 0.8rem;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
 }
 
 /* Form labels & inputs */
 .case-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 6px;
-    display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
 }
 
 .form-control-sm,
 .form-select-sm {
-    padding: 6px 10px;
-    font-size: 0.85rem;
-    border-radius: 6px;
-    border: 1px solid #d1d5db;
-    transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
+
+/* Section-specific action button colors
+   - Re-analysis buttons use a green gradient (matches Re-analysis 2 style)
+   - Re-case primary/save buttons also use the same green per your request
+*/
+#reAnalysisSection .btn-primary,
+#reanalysisBlock2 .btn-primary,
+#reanalysisBlock3 .btn-primary,
+#reCaseTakingSection .btn-primary,
+#recaseBlock2 .btn-primary,
+#recaseBlock3 .btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.18);
+}
+
+#reAnalysisSection .btn-primary:hover,
+#reanalysisBlock2 .btn-primary:hover,
+#reanalysisBlock3 .btn-primary:hover,
+#reCaseTakingSection .btn-primary:hover,
+#recaseBlock2 .btn-primary:hover,
+#recaseBlock3 .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.22);
+}
+
+/* Make outline / toggle buttons use the accent color on hover */
+#reAnalysisSection .btn-outline-secondary:hover,
+#reanalysisBlock2 .btn-outline-secondary:hover,
+#reanalysisBlock3 .btn-outline-secondary:hover,
+#reCaseTakingSection .btn-outline-secondary:hover,
+#recaseBlock2 .btn-outline-secondary:hover,
+#recaseBlock3 .btn-outline-secondary:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.04);
+}
+
+/* If you want Re-case buttons to instead keep purple, remove the #reCaseTakingSection selectors above and let recase-specific styles apply. */
 
 .form-control-sm:focus,
 .form-select-sm:focus {
-    border-color: #10b981;
-    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
 }
 
 .case-textarea {
-    min-height: 100px;
-    resize: vertical;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    padding: 10px 12px;
+  min-height: 160px;
+  resize: vertical;
+  font-size: 0.9rem;
+  line-height: 2.5;
+  padding: 10px 12px;
 }
 
 .case-textarea-sm {
-    min-height: 70px;
-    resize: vertical;
-    font-size: 0.85rem;
-    line-height: 1.4;
-    padding: 8px 10px;
+  min-height: 60px;
+  resize: vertical;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  padding: 8px 10px;
+}
+
+.case-textarea-xs {
+  min-height: 45px;
+  resize: vertical;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  padding: 6px 8px;
+}
+
+/* Complaints Container - Two Column Layout */
+.complaints-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 12px;
+}
+
+.complaints-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.complaints-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Other Complaints Stack (Vertical) */
+.other-complaints-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.complaint-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.complaint-number {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #374151;
+  padding-top: 8px;
+  min-width: 24px;
+}
+
+.complaint-row textarea {
+  flex: 1;
+  min-height: 50px;
+}
+
+.other-complaint-item {
+  background: #f9fafb;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.complaint-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  font-weight: 600;
+  display: block;
+}
+
+.complaint-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Case Files Details Section */
+.case-files-details {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+.file-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-detail-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  min-width: 80px;
+}
+
+/* Case Files Upload Section */
+.case-files-upload {
+  /* background: #f9fafb; */
+  padding: 12px;
+  border-radius: 8px;
+  /* border: 1px solid #e5e7eb; */
+}
+
+.file-upload-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.file-upload-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  min-width: 100px;
+  padding-top: 6px;
+  white-space: nowrap;
+}
+
+.file-upload-input-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Prescribed medicines block (main form under Summary) */
+.prescribed-medicines {
+  /* background: #f3faf7; */
+  padding: 10px;
+  border-radius: 8px;
+  /* border: 1px solid #e6efeb; */
+  margin-top: 10px;
+}
+.prescribed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.prescribed-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.prescribed-number {
+  font-weight: 700;
+  color: #374151;
+  min-width: 28px;
+  text-align: right;
+}
+.prescribed-name {
+  flex: 1;
+  border-radius: 8px;
+}
+.prescribed-date {
+  max-width: 180px;
+  border-radius: 8px;
 }
 
 /* File upload styling */
 .case-file-label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 6px;
-    display: flex;
-    align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
 }
 
 .case-file-hint {
-    font-size: 0.75rem;
-    color: #6b7280;
-    margin-top: 4px;
-    display: flex;
-    align-items: center;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
 }
 
 /* Form actions */
 .case-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    padding-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 12px;
+}
+
+/* Left-side action buttons under Summary */
+.case-actions-left {
+  display: flex;
+  justify-content: flex-start;
+  gap: 8px;
+  padding-top: 6px;
+  flex-wrap: wrap;
 }
 
 .btn-sm {
-    font-size: 0.85rem;
-    padding: 6px 14px;
-    border-radius: 6px;
-    transition: all 0.2s ease;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .btn-success {
-    background-color: #10b981;
-    border-color: #10b981;
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white;
 }
 
 .btn-success:hover {
-    background-color: #059669;
-    border-color: #059669;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  background-color: #059669;
+  border-color: #059669;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary {
-    background-color: #6b7280;
-    border-color: #6b7280;
+  background-color: #6b7280;
+  border-color: #6b7280;
+  color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #4b5563;
-    border-color: #4b5563;
+  background-color: #4b5563;
+  border-color: #4b5563;
+}
+
+.btn-outline-secondary {
+  border-color: #d1d5db;
+  color: #374151;
+  background-color: #f3f4f6;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #e5e7eb;
+  border-color: #9ca3af;
 }
 
 /* Alert styling */
 .alert {
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
 }
 
+/* ===== MAIN BUTTONS STYLING ===== */
+
+/* Save Case Button - Main form button */
+#saveCaseBtn {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+#saveCaseBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+#saveCaseBtn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+}
+
+/* Re-Analysis Toggle Button */
+#toggleReAnalysisBtn {
+  background-color: #f0fdf4;
+  border: 2px solid #10b981;
+  color: #059669;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+#toggleReAnalysisBtn:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Re-Case Taking Toggle Button */
+#toggleReCaseTakingBtn {
+  background-color: #faf5ff;
+  border: 2px solid #8b5cf6;
+  color: #7c3aed;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+#toggleReCaseTakingBtn:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* New Form Button */
+.btn-success {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  transition: all 0.3s ease;
+  border-radius: 6px;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  color: white;
+}
+
+.btn-success:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+}
 .alert-danger {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #991b1b;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
 }
 
 .alert-success {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
 }
 
 /* Modal styling */
 .modal-content {
-    border-radius: 12px;
-    overflow: hidden;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .modal-header {
-    border-radius: 12px 12px 0 0;
-    padding: 18px 22px;
+  border-radius: 12px 12px 0 0;
+  padding: 18px 22px;
 }
 
 .modal-body {
-    padding: 30px 20px;
-    background: #ffffff;
+  padding: 30px 20px;
+  background: #ffffff;
 }
 
 .modal-body i {
-    animation: scaleIn 0.5s ease-out;
+  animation: scaleIn 0.5s ease-out;
 }
 
 @keyframes scaleIn {
-    from {
-        transform: scale(0.5);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
+  from {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* Table styling for previous cases */
 .table-responsive {
-    border-radius: 8px;
-    overflow: hidden;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .table {
-    margin-bottom: 0;
-    font-size: 0.9rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
 }
 
 .table thead th {
-    background: #f0f4f3;
-    color: #0b3c1f;
-    font-weight: 600;
-    border-bottom: 2px solid #d1d5db;
-    padding: 10px 12px;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    letter-spacing: 0.05em;
+  background: #f0f4f3;
+  color: #0b3c1f;
+  font-weight: 600;
+  border-bottom: 2px solid #d1d5db;
+  padding: 10px 12px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .table tbody tr {
-    border-bottom: 1px solid rgba(229, 231, 235, 0.6);
-    transition: background-color 0.2s ease;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+  transition: background-color 0.2s ease;
 }
 
 .table tbody tr:hover {
-    background-color: #f9faf9;
+  background-color: #f9faf9;
 }
 
 .table tbody td {
-    padding: 10px 12px;
-    vertical-align: middle;
+  padding: 10px 12px;
+  vertical-align: middle;
 }
 
 .table .badge {
-    font-size: 0.75rem;
-    padding: 4px 8px;
+  font-size: 0.75rem;
+  padding: 4px 8px;
 }
 
 .table .btn-outline-primary {
-    border-color: #3b82f6;
-    color: #3b82f6;
-    transition: all 0.2s ease;
+  border-color: #3b82f6;
+  color: #3b82f6;
+  transition: all 0.2s ease;
 }
 
 .table .btn-outline-primary:hover {
-    background-color: #3b82f6;
-    color: white;
-    box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
+  background-color: #3b82f6;
+  color: white;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.2);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .case-page-wrapper {
-        padding: 8px 8px 12px;
-    }
-    
-    .case-header-card {
-        padding: 12px 14px;
-    }
-    
-    .case-form-card {
-        padding: 12px 12px 14px;
-    }
-    
-    .case-section {
-        padding: 10px 12px;
-    }
-    
-    .d-flex.justify-content-between {
-        flex-direction: column;
-        gap: 12px;
-    }
-    
-    .text-end {
-        text-align: left;
-    }
-    
-    .case-actions {
-        flex-wrap: wrap;
-    }
+  .case-page-wrapper {
+    padding: 8px 8px 12px;
+  }
+
+  .case-header-card {
+    padding: 10px 12px;
+  }
+
+  .header-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .header-right {
+    width: 100%;
+  }
+
+  .case-form-card {
+    padding: 12px 12px 14px;
+  }
+
+  .case-section {
+    padding: 10px 12px;
+  }
+
+  .complaints-container {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .text-end {
+    text-align: left;
+  }
+
+  .case-actions {
+    flex-wrap: wrap;
+  }
+
+  /* Complaint Section Responsive */
+  .complaint-section .row {
+    flex-direction: column;
+  }
+
+  .other-complaints-container {
+    flex-direction: column;
+  }
+}
+
+/* ===== RE-ANALYSIS & RE-CASE BLOCKS STYLING ===== */
+
+/* Re-Analysis Section Container */
+#reAnalysisSection,
+#reCaseTakingSection {
+  background: linear-gradient(135deg, #f8fbf9 0%, #f3f8f5 100%);
+  border-left: 4px solid #10b981;
+  position: relative;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Re-Case Taking Section - Different color accent */
+#reCaseTakingSection {
+  border-left-color: #8b5cf6;
+}
+
+/* Section Headers */
+#reAnalysisSection .case-section-header,
+#reCaseTakingSection .case-section-header {
+  background: linear-gradient(
+    90deg,
+    rgba(16, 185, 129, 0.08) 0%,
+    transparent 100%
+  );
+  padding: 14px 16px;
+  margin: -14px -16px 12px -16px;
+  border-radius: 12px 12px 0 0;
+}
+
+#reCaseTakingSection .case-section-header {
+  background: linear-gradient(
+    90deg,
+    rgba(139, 92, 246, 0.08) 0%,
+    transparent 100%
+  );
+}
+
+/* Block Container Styling */
+
+/* Remove block outline and background for secondary blocks */
+#reanalysisBlock2,
+#reanalysisBlock3,
+#recaseBlock2,
+#recaseBlock3 {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  margin-top: 0;
+  position: static;
+  box-shadow: none;
+  transition: none;
+}
+
+/* Add subtle background highlight on hover */
+#reanalysisBlock2:hover,
+#reanalysisBlock3:hover {
+  background: linear-gradient(135deg, #f0fdf4 0%, #f8fbf9 100%);
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+#recaseBlock2:hover,
+#recaseBlock3:hover {
+  background: linear-gradient(135deg, #faf5ff 0%, #f8fbf9 100%);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+}
+
+/* Remove block number badge */
+
+/* Form Controls Inside Blocks */
+#reanalysisBlock2 .form-control-sm,
+#reanalysisBlock3 .form-control-sm,
+#recaseBlock2 .form-control-sm,
+#recaseBlock3 .form-control-sm,
+#reanalysisBlock2 .case-textarea-sm,
+#reanalysisBlock3 .case-textarea-sm,
+#recaseBlock2 .case-textarea-sm,
+#recaseBlock3 .case-textarea-sm {
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  transition: all 0.2s ease;
+}
+
+#reanalysisBlock2 .form-control-sm:focus,
+#reanalysisBlock3 .form-control-sm:focus,
+#recaseBlock2 .form-control-sm:focus,
+#recaseBlock3 .form-control-sm:focus,
+#reanalysisBlock2 .case-textarea-sm:focus,
+#reanalysisBlock3 .case-textarea-sm:focus,
+#recaseBlock2 .case-textarea-sm:focus,
+#recaseBlock3 .case-textarea-sm:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  background: #fafbfa;
+}
+
+#recaseBlock2 .form-control-sm:focus,
+#recaseBlock3 .form-control-sm:focus,
+#recaseBlock2 .case-textarea-sm:focus,
+#recaseBlock3 .case-textarea-sm:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* ===== PRIMARY BLOCKS (RE-ANALYSIS 1 & RE-CASE 1) STYLING ===== */
+
+/* Primary Re-Analysis Block Labels */
+#reAnalysisSection .row.g-3:nth-of-type(1) .case-label,
+#reAnalysisSection .row.g-3:nth-of-type(2) .case-label {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+#reAnalysisSection .row.g-3:nth-of-type(1) .case-label::before,
+#reAnalysisSection .row.g-3:nth-of-type(2) .case-label::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: #10b981;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+/* Primary Re-Case Taking Block Labels */
+#reCaseTakingSection .row.g-3:nth-of-type(1) .case-label,
+#reCaseTakingSection .row.g-3:nth-of-type(2) .case-label {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+#reCaseTakingSection .row.g-3:nth-of-type(1) .case-label::before,
+#reCaseTakingSection .row.g-3:nth-of-type(2) .case-label::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: #8b5cf6;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+/* Primary Block Form Controls Focus State */
+#reAnalysisSection .row.g-3:nth-of-type(1) .form-control-sm:focus,
+#reAnalysisSection .row.g-3:nth-of-type(2) .form-control-sm:focus,
+#reAnalysisSection .row.g-3:nth-of-type(1) .case-textarea-sm:focus,
+#reAnalysisSection .row.g-3:nth-of-type(2) .case-textarea-sm:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  background: #fafbfa;
+}
+
+#reCaseTakingSection .row.g-3:nth-of-type(1) .form-control-sm:focus,
+#reCaseTakingSection .row.g-3:nth-of-type(2) .form-control-sm:focus,
+#reCaseTakingSection .row.g-3:nth-of-type(1) .case-textarea-sm:focus,
+#reCaseTakingSection .row.g-3:nth-of-type(2) .case-textarea-sm:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  background: #faf5ff;
+}
+
+/* Primary Block Save Buttons */
+#reAnalysisSection > .row.g-3:nth-of-type(2) .btn-primary,
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  transition: all 0.3s ease;
+}
+
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+#reAnalysisSection > .row.g-3:nth-of-type(2) .btn-primary:hover,
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-primary:hover {
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+}
+
+/* Primary Block Toggle Buttons */
+#reAnalysisSection > .row.g-3:nth-of-type(2) .btn-outline-secondary,
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-outline-secondary {
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+  background: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+#reAnalysisSection > .row.g-3:nth-of-type(2) .btn-outline-secondary:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+#reCaseTakingSection > .row.g-3:nth-of-type(2) .btn-outline-secondary:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.05);
+}
+
+/* Primary Block Medicine Row Styling */
+#reAnalysisSection .row.g-3:nth-of-type(2) .medicine-row,
+#reCaseTakingSection .row.g-3:nth-of-type(2) .medicine-row {
+  background: #fafbfa;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+#reAnalysisSection .row.g-3:nth-of-type(2) .medicine-row:focus-within {
+  background: #f0fdf4;
+  border-color: #10b981;
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+#reCaseTakingSection .row.g-3:nth-of-type(2) .medicine-row:focus-within {
+  background: #faf5ff;
+  border-color: #8b5cf6;
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.2);
+}
+
+/* Labels for Secondary Blocks */
+#reanalysisBlock2 .case-label,
+#reanalysisBlock3 .case-label,
+#recaseBlock2 .case-label,
+#recaseBlock3 .case-label {
+  font-weight: 700;
+  color: #1f2937;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+
+#reanalysisBlock2 .case-label::before,
+#reanalysisBlock3 .case-label::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 16px;
+  background: #10b981;
+  margin-right: 8px;
+  border-radius: 2px;
+}
+
+#recaseBlock2 .case-label::before,
+#recaseBlock3 .case-label::before {
+  background: #8b5cf6;
+}
+
+/* Save Buttons in Secondary Blocks */
+#reanalysisBlock2 .btn-primary,
+#reanalysisBlock3 .btn-primary,
+#recaseBlock2 .btn-primary,
+#recaseBlock3 .btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  transition: all 0.3s ease;
+}
+
+#recaseBlock2 .btn-primary,
+#recaseBlock3 .btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+#reanalysisBlock2 .btn-primary:hover,
+#reanalysisBlock3 .btn-primary:hover,
+#recaseBlock2 .btn-primary:hover,
+#recaseBlock3 .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+#recaseBlock2 .btn-primary:hover,
+#recaseBlock3 .btn-primary:hover {
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
+}
+
+#reanalysisBlock2 .btn-primary:active,
+#reanalysisBlock3 .btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+}
+
+#recaseBlock2 .btn-primary:active,
+#recaseBlock3 .btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.2);
+}
+
+/* Border radius for secondary block buttons */
+#reanalysisBlock2 .btn-primary,
+#reanalysisBlock3 .btn-primary,
+#recaseBlock2 .btn-primary,
+#recaseBlock3 .btn-primary {
+  border-radius: 6px;
+}
+/* Toggle Buttons in Secondary Blocks */
+#reanalysisBlock2 .btn-outline-secondary,
+#reanalysisBlock3 .btn-outline-secondary,
+#recaseBlock2 .btn-outline-secondary,
+#recaseBlock3 .btn-outline-secondary {
+  border: 2px solid #e5e7eb;
+  color: #6b7280;
+  background: white;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+/* Re-Analysis toggle buttons */
+#reanalysisBlock2 .btn-outline-secondary,
+#reanalysisBlock3 .btn-outline-secondary {
+  background-color: #f0fdf4;
+  border: 2px solid #10b981;
+  color: #059669;
+}
+
+#reanalysisBlock2 .btn-outline-secondary:hover,
+#reanalysisBlock3 .btn-outline-secondary:hover {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-color: #10b981;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Re-Case toggle buttons */
+#recaseBlock2 .btn-outline-secondary,
+#recaseBlock3 .btn-outline-secondary {
+  background-color: #faf5ff;
+  border: 2px solid #8b5cf6;
+  color: #7c3aed;
+}
+
+#recaseBlock2 .btn-outline-secondary:hover,
+#recaseBlock3 .btn-outline-secondary:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border-color: #8b5cf6;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+#reanalysisBlock2 .btn-outline-secondary:hover,
+#reanalysisBlock3 .btn-outline-secondary:hover {
+  border-color: #10b981;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+#recaseBlock2 .btn-outline-secondary:hover,
+#recaseBlock3 .btn-outline-secondary:hover {
+  border-color: #8b5cf6;
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.05);
+}
+
+/* File Input Styling in Re-case Blocks */
+#recaseBlock2 .file-input,
+#recaseBlock3 .file-input {
+  padding: 10px 12px;
+  border: 2px dashed #d1d5db;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+#recaseBlock2 .file-input:hover,
+#recaseBlock3 .file-input:hover {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.02);
+}
+
+#recaseBlock2 .file-input:focus,
+#recaseBlock3 .file-input:focus {
+  outline: none;
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Medicine Row Styling */
+#reanalysisBlock2 .medicine-row,
+#reanalysisBlock3 .medicine-row,
+#recaseBlock2 .medicine-row,
+#recaseBlock3 .medicine-row {
+  background: #fafbfa;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+#reanalysisBlock2 .medicine-row:focus-within,
+#reanalysisBlock3 .medicine-row:focus-within {
+  background: #f0fdf4;
+  border-color: #10b981;
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+#recaseBlock2 .medicine-row:focus-within,
+#recaseBlock3 .medicine-row:focus-within {
+  background: #faf5ff;
+  border-color: #8b5cf6;
+  box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.2);
+}
+
+/* Remove 'Additional Entry' label */
+/* Horizontal line separator for blocks */
+.case-block-separator {
+  border: none;
+  border-top: 2px dashed #d1d5db;
+  margin: 24px 0 16px 0;
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.case-block-separator:hover {
+  border-top-color: #10b981;
+  opacity: 1;
+}
+
+/* Full-width block 3 styling for re-analysis and re-case */
+#reanalysisBlock3,
+#recaseBlock3 {
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+#reanalysisBlock3 .col-md-12,
+#recaseBlock3 .col-md-12 {
+  padding: 0;
+  width: 100%;
+}
+
+/* Responsive Adjustments for Secondary Blocks */
+@media (max-width: 768px) {
+  #reanalysisBlock2,
+  #reanalysisBlock3,
+  #recaseBlock2,
+  #recaseBlock3 {
+    padding: 12px;
+    margin-top: 10px;
+  }
+
+  #reanalysisBlock2::before,
+  #reanalysisBlock3::before,
+  #recaseBlock2::before,
+  #recaseBlock3::before {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+    right: 12px;
+    top: -10px;
+  }
+
+  #reanalysisBlock2 .col-md-6,
+  #reanalysisBlock3 .col-md-6,
+  #recaseBlock2 .col-md-6,
+  #recaseBlock3 .col-md-6,
+  #reanalysisBlock2 .col-md-8,
+  #reanalysisBlock3 .col-md-8,
+  #recaseBlock2 .col-md-8,
+  #recaseBlock3 .col-md-8,
+  #reanalysisBlock2 .col-md-4,
+  #reanalysisBlock3 .col-md-4,
+  #recaseBlock2 .col-md-4,
+  #recaseBlock3 .col-md-4 {
+    margin-bottom: 12px;
+  }
+
+  #reanalysisBlock2 .text-end,
+  #reanalysisBlock3 .text-end,
+  #recaseBlock2 .text-end,
+  #recaseBlock3 .text-end {
+    text-align: left !important;
+  }
+
+  #reanalysisBlock2 .d-flex,
+  #reanalysisBlock3 .d-flex,
+  #recaseBlock2 .d-flex,
+  #recaseBlock3 .d-flex {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #reanalysisBlock2::after,
+  #reanalysisBlock3::after,
+  #recaseBlock2::after,
+  #recaseBlock3::after {
+    display: none;
+  }
+}
+
+/* ===== ACTION BUTTON COLOURS ===== */
+/* Main Save Case button (blue) */
+#saveCaseBtn {
+  background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18);
+  transition: all 0.25s ease;
+}
+#saveCaseBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(37, 99, 235, 0.22);
+}
+
+/* New Form / green actions: keep success feel but refined */
+.case-form-card .btn-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.16);
+}
+.case-form-card .btn-success:hover {
+  transform: translateY(-2px);
+}
+
+/* Top toggles: visually indicate which section they open */
+#toggleReAnalysisBtn {
+  color: #065f46;
+  border-color: rgba(16, 185, 129, 0.15);
+  background: transparent;
+}
+#toggleReAnalysisBtn:hover {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+#toggleReCaseTakingBtn {
+  color: #5b21b6;
+  border-color: rgba(139, 92, 246, 0.15);
+  background: transparent;
+}
+#toggleReCaseTakingBtn:hover {
+  background: rgba(139, 92, 246, 0.06);
+  border-color: rgba(139, 92, 246, 0.25);
+}
+
+/* Generic action buttons inside sections - subtle rounded style */
+.case-section .btn {
+  border-radius: 6px;
+  padding: 6px 10px;
+}
+
+/* Ensure small save buttons in re-analysis / re-case match section theme */
+#reAnalysisSection .btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border: none;
+  color: #fff;
+}
+#reAnalysisSection .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.22);
+}
+
+#reCaseTakingSection .btn-primary {
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  border: none;
+  color: #fff;
+}
+#reCaseTakingSection .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.22);
 }

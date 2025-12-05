@@ -193,167 +193,165 @@ if ($stmt) {
             <!-- Patient Header -->
             <div class="patient-head-card">
                 <div class="ph-left">
-                    <div class="ph-name"><?= h($patient['name']) ?></div>
-
                     <div class="pres-line">
-                        <span class="pres-label">Patient ID:</span>
+                        <span class="pres-label">PAT ID:</span>
                         <span class="pres-value"><?= "P-" . h($patient['id']) ?></span>
+                        <span class="ph-name ms-3"><?= h($patient['name']) ?></span>
                     </div>
 
-                    <div class="pres-line">
+                    <div class="pres-line mt-1">
                         <span class="pres-label">Case ID:</span>
                         <span class="pres-value"><?= $case['id'] ? ("#" . (int)$case['id']) : '--' ?></span>
-                    </div>
-
-                    <div class="pres-line">
-                        <span class="pres-label">Last Visit:</span>
-                        <span class="pres-value"><?= $case['visit_date'] ? h(date('M d, Y', strtotime($case['visit_date']))) : '--' ?></span>
-                    </div>
-
-                    <div class="pres-line">
-                        <span class="pres-label">Total Cases:</span>
-                        <span class="pres-value"><?= $total_cases ?></span>
                     </div>
                 </div>
 
                 <div class="ph-right">
-                    <div class="ph-consult-title">Consultant</div>
-                    <div class="ph-consult-name"><?= h($case['consultant_name'] ?: "--") ?></div>
+                    <div class="pres-line">
+                        <span class="pres-label">Consultant:</span>
+                        <span class="pres-value"><?= h($case['consultant_name'] ?: "--") ?></span>
+                    </div>
 
-                    <!-- <?php if ($case['id']): ?>
+                    <div class="ph-meta mt-2">
+                        <div class="pres-line">
+                            <span class="pres-label">Last Visit:</span>
+                            <span class="pres-value"><?= $case['visit_date'] ? h(date('M d, Y', strtotime($case['visit_date']))) : '--' ?></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- <?php if ($case['id']): ?>
                         <div class="mt-2">
                             <a href="case.php?patient_id=<?= (int)$patient['id'] ?>&case_id=<?= (int)$case['id'] ?>&open_tab=prescriptions" class="btn btn-outline-primary btn-sm">Open Case</a>
                         </div>
                     <?php endif; ?> -->
-                </div>
             </div>
-
-            <!-- Category Selection -->
-            <div class="block-title">MEDICINE CATEGORY</div>
-            <div class="category-radio mb-3">
-                <label><input type="radio" name="category" value="constitutional"> Constitutional</label>
-                <label><input type="radio" name="category" value="acute"> Acute</label>
-                <label><input type="radio" name="category" value="supplementary"> Supplementary</label>
-                <label><input type="radio" name="category" value="other" checked> Other</label>
-            </div>
-
-            <!-- Add Medicine Form -->
-            <div class="block-title">ADD MEDICINE</div>
-            <div class="row g-2 mb-3">
-                <div class="col-md-4">
-                    <label class="form-label">Medicine Name *</label>
-                    <input id="medicine_name" class="form-control" placeholder="e.g., Belladonna">
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Potency</label>
-                    <select id="potency" class="form-select">
-                        <option value="">Select</option>
-                        <option>30C</option>
-                        <option>200C</option>
-                        <option>1M</option>
-                        <option>10M</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Dosage</label>
-                    <select id="dosage" class="form-select">
-                        <option value="">Select</option>
-                        <option>5 drops</option>
-                        <option>3 pills</option>
-                        <option>1 spoon</option>
-                        <option>10 drops</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Frequency</label>
-                    <select id="frequency" class="form-select">
-                        <option value="">Select</option>
-                        <option>OD</option>
-                        <option>BD</option>
-                        <option>TDS</option>
-                        <option>QID</option>
-                    </select>
-                </div>
-                <div class="col-md-2">
-                    <label class="form-label">Duration</label>
-                    <select id="duration" class="form-select">
-                        <option value="">Select</option>
-                        <option>3 days</option>
-                        <option>5 days</option>
-                        <option>1 week</option>
-                        <option>2 weeks</option>
-                        <option>1 month</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label">Instructions</label>
-                <textarea id="instructions" class="form-control" rows="2" placeholder="Optional instructions..."></textarea>
-            </div>
-
-            <button id="add_medicine" class="btn btn-success">
-                <i class="fas fa-plus me-2"></i>ADD MEDICINE
-            </button>
-
-            <div id="add_result" class="alert mt-3" style="display:none;"></div>
-
-            <!-- Prescription List -->
-            <div class="block-title mt-4">CURRENT PRESCRIPTIONS</div>
-            <div class="table-responsive table-prescription">
-                <table class="table table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th style="width:50px">S.No</th>
-                            <th>Category</th>
-                            <th>Medicine</th>
-                            <th>Potency</th>
-                            <th>Frequency</th>
-                            <th>Duration</th>
-                            <th style="width:80px">Edit</th>
-                            <th style="width:80px">Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody id="prescription_body">
-                        <tr>
-                            <td colspan="8" class="text-center text-muted">Loading...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Medicine History -->
-            <div class="block-title mt-4">MEDICINE HISTORY</div>
-            <div class="history-block">
-                <strong>Constitutional:</strong>
-                <ul class="history-bullet">
-                    <?php foreach ($history as $h) {
-                        if ($h['medicine_category'] === 'constitutional') {
-                            echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
-                        }
-                    } ?>
-                </ul>
-
-                <strong>Acute:</strong>
-                <ul class="history-bullet">
-                    <?php foreach ($history as $h) {
-                        if ($h['medicine_category'] === 'acute') {
-                            echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
-                        }
-                    } ?>
-                </ul>
-
-                <strong>Supplementary:</strong>
-                <ul class="history-bullet">
-                    <?php foreach ($history as $h) {
-                        if ($h['medicine_category'] === 'supplementary') {
-                            echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
-                        }
-                    } ?>
-                </ul>
-            </div>
-
         </div>
+
+        <!-- Category Selection -->
+        <div class="block-title">MEDICINE CATEGORY</div>
+        <div class="category-radio mb-3">
+            <label><input type="radio" name="category" value="constitutional"> Constitutional</label>
+            <label><input type="radio" name="category" value="acute"> Acute</label>
+            <label><input type="radio" name="category" value="supplementary"> Supplementary</label>
+            <label><input type="radio" name="category" value="other" checked> Other</label>
+        </div>
+
+        <!-- Add Medicine Form -->
+        <div class="block-title">ADD MEDICINE</div>
+        <div class="row g-2 mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Medicine Name *</label>
+                <input id="medicine_name" class="form-control" placeholder="e.g., Belladonna">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Potency</label>
+                <select id="potency" class="form-select">
+                    <option value="">Select</option>
+                    <option>30C</option>
+                    <option>200C</option>
+                    <option>1M</option>
+                    <option>10M</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Dosage</label>
+                <select id="dosage" class="form-select">
+                    <option value="">Select</option>
+                    <option>5 drops</option>
+                    <option>3 pills</option>
+                    <option>1 spoon</option>
+                    <option>10 drops</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Frequency</label>
+                <select id="frequency" class="form-select">
+                    <option value="">Select</option>
+                    <option>OD</option>
+                    <option>BD</option>
+                    <option>TDS</option>
+                    <option>QID</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">Duration</label>
+                <select id="duration" class="form-select">
+                    <option value="">Select</option>
+                    <option>3 days</option>
+                    <option>5 days</option>
+                    <option>1 week</option>
+                    <option>2 weeks</option>
+                    <option>1 month</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Instructions</label>
+            <textarea id="instructions" class="form-control" rows="2" placeholder="Optional instructions..."></textarea>
+        </div>
+
+        <button id="add_medicine" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>ADD MEDICINE
+        </button>
+
+        <div id="add_result" class="alert mt-3" style="display:none;"></div>
+
+        <!-- Prescription List -->
+        <div class="block-title mt-4">CURRENT PRESCRIPTIONS</div>
+        <div class="table-responsive table-prescription">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <th style="width:50px">S.No</th>
+                        <th>Category</th>
+                        <th>Medicine</th>
+                        <th>Potency</th>
+                        <th>Frequency</th>
+                        <th>Duration</th>
+                        <th style="width:80px">Edit</th>
+                        <th style="width:80px">Delete</th>
+                    </tr>
+                </thead>
+                <tbody id="prescription_body">
+                    <tr>
+                        <td colspan="8" class="text-center text-muted">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Medicine History -->
+        <div class="block-title mt-4">MEDICINE HISTORY</div>
+        <div class="history-block">
+            <strong>Constitutional:</strong>
+            <ul class="history-bullet">
+                <?php foreach ($history as $h) {
+                    if ($h['medicine_category'] === 'constitutional') {
+                        echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
+                    }
+                } ?>
+            </ul>
+
+            <strong>Acute:</strong>
+            <ul class="history-bullet">
+                <?php foreach ($history as $h) {
+                    if ($h['medicine_category'] === 'acute') {
+                        echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
+                    }
+                } ?>
+            </ul>
+
+            <strong>Supplementary:</strong>
+            <ul class="history-bullet">
+                <?php foreach ($history as $h) {
+                    if ($h['medicine_category'] === 'supplementary') {
+                        echo "<li>" . h($h['medicine_name']) . " <span class='text-muted small'>(" . h(date('d M Y', strtotime($h['created_at'] ?? ''))) . ")</span></li>";
+                    }
+                } ?>
+            </ul>
+        </div>
+
+    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
