@@ -86,3 +86,78 @@
     padding-bottom: 0.5rem !important;
 }
 
+/* === User filters + profile cells (shared with admin) === */
+.user-filter-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: flex-end;
+}
+
+.user-filter-inline .filter-field {
+    flex: 1 1 200px;
+}
+
+.user-filter-inline .filter-field--short {
+    flex: 0 0 180px;
+}
+
+.user-filter-inline .filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex: 0 0 auto;
+    align-items: center;
+}
+
+@media (max-width: 576px) {
+    .user-filter-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .user-filter-inline .filter-field,
+    .user-filter-inline .filter-field--short,
+    .user-filter-inline .filter-actions {
+        flex: 1 1 100%;
+    }
+
+    .user-filter-inline .filter-actions {
+        justify-content: flex-start;
+    }
+}
+
+.profile-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #adb5bd;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid #ced4da;
+}
+
+.profile-avatar.has-photo {
+    border-color: #dee2e6;
+}
+
+.profile-avatar--initial {
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+.profile-meta {
+    font-weight: 500;
+}
+

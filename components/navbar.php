@@ -10,7 +10,20 @@
 // Get role and name from $USER (set by auth.php)
 $userName = htmlspecialchars($USER['name'] ?? $USER['username'] ?? 'User');
 $userRole = ucfirst(strtolower($USER['role'] ?? 'user'));
-$userInitial = strtoupper($userName[0] ?? 'U');
+$userUsername = $USER['username'] ?? 'User';
+$userInitial = strtoupper(mb_substr($userUsername, 0, 1)) ?? 'U';
+$profilePhotoSrc = '';
+$hasPhoto = false;
+
+// Check if user has a photo in the photo field (LONGBLOB)
+if (!empty($USER['photo'])) {
+    // Safely encode the binary photo data
+    $photoData = $USER['photo'];
+    if (is_string($photoData) && strlen($photoData) > 0) {
+        $profilePhotoSrc = 'data:image/jpeg;base64,' . base64_encode($photoData);
+        $hasPhoto = true;
+    }
+}
 $pageTitle = $pageTitle ?? 'Dashboard';
 
 // Try to extract access token expiry to show client-side countdown
@@ -39,7 +52,13 @@ include_once __DIR__ . '/modal-dialogs.php';
         <div class="profile-dropdown">
             <!-- Profile icon and name -->
             <div class="profile-menu" onclick="toggleProfileDropdown(event)">
-                <div class="profile-icon"><?php echo $userInitial; ?></div>
+                <?php if ($hasPhoto && $profilePhotoSrc): ?>
+                    <div class="profile-icon has-photo" style="background-image:url('<?php echo $profilePhotoSrc; ?>');background-size:cover;background-position:center;"></div>
+                <?php else: ?>
+                    <div class="profile-icon profile-icon--initial" aria-hidden="true">
+                        <?php echo htmlspecialchars($userInitial); ?>
+                    </div>
+                <?php endif; ?>
                 <div>
                     <div class="profile-name"><?php echo $userName; ?></div>
                     <div class="profile-role"><?php echo $userRole; ?></div>
@@ -90,14 +109,28 @@ document.addEventListener('click', (e) => {
  */
 function logout() {
     const performLogout = () => {
-        fetch("/auth/logout.php")
-            .then(() => window.location = "/auth/login.html")
-            .catch(err => alert('Logout error: ' + err));
+        fetch("/auth/logout.php", {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Accept': 'application/json' }
+        })
+        .then(resp => {
+            // Close any open modals
+            document.querySelectorAll('.modal.show').forEach(modal => {
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) bsModal.hide();
+            });
+            // Redirect to login page
+            window.location = "/auth/login.html";
+        })
+        .catch(err => {
+            console.error('Logout error:', err);
+            // Force redirect even if logout fails
+            window.location = "/auth/login.html";
+        });
     };
 
-    if (typeof showConfirmation === 'function') {
-        showConfirmation('Are you sure you want to logout?', performLogout, null, 'Confirm Logout');
-    } else if (typeof showConfirmModal === 'function') {
+    if (typeof showConfirmModal === 'function') {
         showConfirmModal('Are you sure you want to logout?', performLogout);
     } else if (confirm('Are you sure you want to logout?')) {
         performLogout();
@@ -147,10 +180,12 @@ function logout() {
                     });
                 };
                 const onCancel = () => {
-                    // user dismissed - we'll let countdown continue and auto-logout when expired
+                    // user cancelled or didn't respond - logout directly
                     if (typeof showNotification === 'function') {
-                        showNotification('Session will expire unless extended', true, { duration: 4000 });
+                        showNotification('You have been logged out.', false, { duration: 3000 });
                     }
+                    clearInterval(timerInterval);
+                    logout();
                 };
 
                 if (typeof showConfirmModal === 'function') {

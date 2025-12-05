@@ -38,11 +38,28 @@ switch ($action) {
             exit;
         }
 
+        $hasPhoto = isset($_FILES['photo']) && is_uploaded_file($_FILES['photo']['tmp_name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK;
+        if ($hasPhoto) {
+            $validation = validateFileUpload($_FILES['photo'], 2 * 1024 * 1024, ['image/jpeg', 'image/png', 'image/gif']);
+            if (!$validation['valid']) {
+                http_response_code(400);
+                echo json_encode(['status' => 'error', 'message' => $validation['error']]);
+                exit;
+            }
+            $photoData = $validation['data'];
+        }
+
         if ($id) {
             // update user
-            $ust = $conn->prepare("UPDATE users SET name = ?, role_id = ?, email = ?, mobile = ?, status = ?, doj = ?, dob = ?, description = ?, updated_at = NOW() WHERE id = ?");
-            if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
-            $ust->bind_param('sissssssi', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description, $id);
+            if ($hasPhoto) {
+                $ust = $conn->prepare("UPDATE users SET name = ?, role_id = ?, email = ?, mobile = ?, status = ?, doj = ?, dob = ?, description = ?, photo = ?, updated_at = NOW() WHERE id = ?");
+                if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
+                $ust->bind_param('sisssssssi', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description, $photoData, $id);
+            } else {
+                $ust = $conn->prepare("UPDATE users SET name = ?, role_id = ?, email = ?, mobile = ?, status = ?, doj = ?, dob = ?, description = ?, updated_at = NOW() WHERE id = ?");
+                if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
+                $ust->bind_param('sissssssi', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description, $id);
+            }
             if (!$ust->execute()) {
                 $errno = $conn->errno;
                 $err = $ust->error;
@@ -81,9 +98,15 @@ switch ($action) {
             Notification::jsonResponse('success', getMessage('MSG_USER_UPDATED'));
         } else {
             // create user
-            $ust = $conn->prepare("INSERT INTO users (name, role_id, email, mobile, status, doj, dob, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
-            if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
-            $ust->bind_param('sissssss', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description);
+            if ($hasPhoto) {
+                $ust = $conn->prepare("INSERT INTO users (name, role_id, email, mobile, status, doj, dob, description, photo, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+                if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
+                $ust->bind_param('sisssssss', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description, $photoData);
+            } else {
+                $ust = $conn->prepare("INSERT INTO users (name, role_id, email, mobile, status, doj, dob, description, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())");
+                if ($ust === false) { http_response_code(500); echo json_encode(['status'=>'error','message'=>$conn->error]); exit; }
+                $ust->bind_param('sissssss', $name, $role_id, $email, $mobile, $status, $doj, $dob, $description);
+            }
             if (!$ust->execute()) {
                 $errno = $conn->errno;
                 $err = $ust->error;

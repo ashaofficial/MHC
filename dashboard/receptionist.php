@@ -63,10 +63,11 @@ if (!hasRole($USER['role'] ?? '', 'receptionist')) {
                     break;
                 case 'appointments':
                     contentArea.innerHTML = `
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h2><i class="fas fa-calendar-alt"></i> Appointments</h2>
-                                <p class="text-muted mt-3">Manage clinic appointments</p>
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body p-0">
+                                <iframe src="../tools/work_tracker.php"
+                                        style="width:100%;min-height:80vh;border:0;"
+                                        title="Appointments - Work Tracker"></iframe>
                             </div>
                         </div>
                     `;

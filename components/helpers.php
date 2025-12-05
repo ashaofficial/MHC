@@ -103,4 +103,77 @@ function verifyPassword($password, $hash) {
     }
     return password_verify($password, $hash);
 }
+
+/**
+ * Convert amount to words (Indian English)
+ */
+function amountInWords($amount) {
+    $amount = (float)$amount;
+    $rupees = (int)floor($amount);
+    $paise = (int)round(($amount - $rupees) * 100);
+
+    if ($rupees === 0 && $paise === 0) return 'ZERO ONLY';
+
+    $words = strtoupper(numberToWords($rupees));
+    $resultParts = [];
+    if ($words !== '') $resultParts[] = $words . ' RUPEE' . ($rupees !== 1 ? 'S' : '');
+    if ($paise > 0) {
+        $pwords = strtoupper(numberToWords($paise));
+        $resultParts[] = $pwords . ' PAISE';
+    }
+
+    $result = implode(' AND ', $resultParts) . ' ONLY';
+    return $result;
+}
+/**
+ * Convert integer number (0..999999999) to words using Indian grouping (crore, lakh, thousand)
+ */
+function numberToWords($num) {
+    $num = (int)$num;
+    if ($num === 0) return '';
+
+    $units = [0=>'',1=>'one',2=>'two',3=>'three',4=>'four',5=>'five',6=>'six',7=>'seven',8=>'eight',9=>'nine',10=>'ten',11=>'eleven',12=>'twelve',13=>'thirteen',14=>'fourteen',15=>'fifteen',16=>'sixteen',17=>'seventeen',18=>'eighteen',19=>'nineteen'];
+    $tens = [0=>'','',2=>'twenty',3=>'thirty',4=>'forty',5=>'fifty',6=>'sixty',7=>'seventy',8=>'eighty',9=>'ninety'];
+
+    $parts = [];
+
+    $crore = intdiv($num, 10000000);
+    if ($crore > 0) {
+        $parts[] = numberToWords($crore) . ' crore';
+        $num = $num % 10000000;
+    }
+    $lakh = intdiv($num, 100000);
+    if ($lakh > 0) {
+        $parts[] = numberToWords($lakh) . ' lakh';
+        $num = $num % 100000;
+    }
+    $thousand = intdiv($num, 1000);
+    if ($thousand > 0) {
+        $parts[] = numberToWords($thousand) . ' thousand';
+        $num = $num % 1000;
+    }
+    $hundred = intdiv($num, 100);
+    if ($hundred > 0) {
+        $parts[] = numberToWords($hundred) . ' hundred';
+        $num = $num % 100;
+    }
+    if ($num > 0) {
+        if (!empty($parts)) $parts[] = 'and ' . (($num < 20) ? $units[$num] : ($tens[intdiv($num,10)] . ($num % 10 ? ' ' . $units[$num % 10] : '')));
+        else $parts[] = ($num < 20) ? $units[$num] : ($tens[intdiv($num,10)] . ($num % 10 ? ' ' . $units[$num % 10] : ''));
+    }
+
+    return implode(' ', array_filter($parts));
+}
+
+/**
+ * Extract clean notes by removing __ITEMS__: JSON prefix
+ * Used to hide internal billing item JSON from user-facing notes field
+ * The __ITEMS__: data is preserved in the DB but not shown in the form textarea
+ */
+function getCleanNotes($notesText) {
+    if (empty($notesText)) return '';
+    // Remove __ITEMS__: prefix and the JSON that follows it, including the trailing newline
+    return preg_replace('/^__ITEMS__:[^\n]*\n?/', '', $notesText);
+}
 ?>
+

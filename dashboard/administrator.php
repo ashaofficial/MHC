@@ -62,6 +62,10 @@ async function fetchFragment(url) {
     }
 }
 
+let adminUserSortField = 'profile';
+let adminUserSortDir = 'asc';
+let adminUserFilters = { name: '', mobile: '', doj: '' };
+
 /* ---------------------------
    Load Settings Tabs
 ---------------------------- */
@@ -118,8 +122,17 @@ async function loadSettings() {
     `;
 
     try {
+        const userParams = new URLSearchParams({
+            usersFragment: '1',
+            sortField: adminUserSortField,
+            sortDir: adminUserSortDir,
+            filterName: adminUserFilters.name,
+            filterMobile: adminUserFilters.mobile,
+            filterDoj: adminUserFilters.doj
+        });
+
         const [usersHTML, rolesHTML, consultsHTML] = await Promise.all([
-            fetchFragment('settings.php?usersFragment=1'),
+            fetchFragment('settings.php?' + userParams.toString()),
             fetchFragment('settings.php?rolesFragment=1'),
             fetchFragment('settings.php?consultantsFragment=1')
         ]);
@@ -132,6 +145,7 @@ async function loadSettings() {
 
         // Bind admin-side handlers so Edit/Save work when fragments are loaded into Admin page
         bindUserButtonsAdmin();
+        bindUserFilterControlsAdmin();
         bindRoleButtonsAdmin();
         bindConsultantButtonsAdmin();
 
@@ -144,17 +158,55 @@ function renderUsersPaneAdmin(rowsHTML) {
     const pane = document.getElementById('usersPane');
     if (!pane) return;
     pane.innerHTML = `
-        <table class="table table-striped table-hover table-sm">
-            <thead class="table-light">
-                <tr>
-                    <th>Name</th><th>Username</th><th>Role</th>
-                    <th>Email</th><th>Mobile</th><th>DOJ</th><th>DOB</th>
-                    <th>Description</th><th>Status</th>
-                    <th class="text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>${rowsHTML}</tbody>
-        </table>
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <form id="userFilterForm" class="user-filter-inline">
+                    <div class="filter-field">
+                        <label class="form-label">Profile</label>
+                        <input type="text" class="form-control form-control-sm" id="userFilterName" placeholder="Search profile..." value="${adminUserFilters.name || ''}">
+                    </div>
+                    <div class="filter-field">
+                        <label class="form-label">Mobile</label>
+                        <input type="text" class="form-control form-control-sm" id="userFilterMobile" placeholder="Search mobile..." value="${adminUserFilters.mobile || ''}">
+                    </div>
+                    <div class="filter-field filter-field--short">
+                        <label class="form-label">Date of Joining</label>
+                        <input type="date" class="form-control form-control-sm" id="userFilterDoj" value="${adminUserFilters.doj || ''}">
+                    </div>
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-primary btn-sm me-2"><i class="fas fa-filter"></i> Apply</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" id="resetUserFilters"><i class="fas fa-undo"></i> Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>
+                            <button type="button" class="btn btn-link p-0 user-sort-btn" data-field="profile">
+                                Profile <span class="sort-icon" data-field="profile">${getAdminSortIcon('profile')}</span>
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-link p-0 user-sort-btn" data-field="username">
+                                Username <span class="sort-icon" data-field="username">${getAdminSortIcon('username')}</span>
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-link p-0 user-sort-btn" data-field="role">
+                                Role <span class="sort-icon" data-field="role">${getAdminSortIcon('role')}</span>
+                            </button>
+                        </th>
+                        <th>Email</th><th>Mobile</th><th>DOJ</th><th>DOB</th>
+                        <th>Description</th><th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>${rowsHTML}</tbody>
+            </table>
+        </div>
     `;
 }
 
@@ -170,14 +222,67 @@ function renderConsultantsPaneAdmin(html) {
     pane.innerHTML = html;
 }
 
+function bindUserFilterControlsAdmin() {
+    const form = document.getElementById('userFilterForm');
+    const nameInput = document.getElementById('userFilterName');
+    const mobileInput = document.getElementById('userFilterMobile');
+    const dojInput = document.getElementById('userFilterDoj');
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            adminUserFilters.name = nameInput ? nameInput.value.trim() : '';
+            adminUserFilters.mobile = mobileInput ? mobileInput.value.trim() : '';
+            adminUserFilters.doj = dojInput ? dojInput.value.trim() : '';
+            refreshUsersPaneAdmin();
+        });
+    }
+
+    const resetBtn = document.getElementById('resetUserFilters');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            adminUserFilters = { name: '', mobile: '', doj: '' };
+            refreshUsersPaneAdmin();
+        });
+    }
+
+    document.querySelectorAll('.user-sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const field = btn.dataset.field;
+            if (!field) return;
+            if (adminUserSortField === field) {
+                adminUserSortDir = adminUserSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                adminUserSortField = field;
+                adminUserSortDir = 'asc';
+            }
+            refreshUsersPaneAdmin();
+        });
+    });
+}
+
+function getAdminSortIcon(field) {
+    if (adminUserSortField !== field) return '⇅';
+    return adminUserSortDir === 'asc' ? '↑' : '↓';
+}
+
 async function refreshUsersPaneAdmin() {
     const pane = document.getElementById('usersPane');
     if (!pane) return;
     pane.innerHTML = '<div class="text-muted">Refreshing users...</div>';
+    const params = new URLSearchParams({
+        usersFragment: '1',
+        sortField: adminUserSortField,
+        sortDir: adminUserSortDir,
+        filterName: adminUserFilters.name,
+        filterMobile: adminUserFilters.mobile,
+        filterDoj: adminUserFilters.doj
+    });
     try {
-        const rows = await fetchFragment('settings.php?usersFragment=1');
+        const rows = await fetchFragment('settings.php?' + params.toString());
         renderUsersPaneAdmin(rows);
         bindUserButtonsAdmin();
+        bindUserFilterControlsAdmin();
     } catch (err) {
         pane.innerHTML = `<div class="text-danger">Unable to refresh users.</div>`;
     }
@@ -283,6 +388,18 @@ function showSection(section) {
             `;
             break;
 
+        case 'billing_items':
+            contentArea.innerHTML = `
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <iframe src="../billing/items.php"
+                                style="width:100%;min-height:80vh;border:0;"
+                                title="Billing Items"></iframe>
+                    </div>
+                </div>
+            `;
+            break;
+
         case 'billing_update':
             contentArea.innerHTML = `
                 <div class="card shadow-sm border-0">
@@ -302,6 +419,18 @@ function showSection(section) {
                         <iframe src="../billing/bill_history.php"
                                 style="width:100%;min-height:80vh;border:0;"
                                 title="Bill History"></iframe>
+                    </div>
+                </div>
+            `;
+            break;
+
+        case 'work_tracker':
+            contentArea.innerHTML = `
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-0">
+                        <iframe src="../tools/work_tracker.php"
+                                style="width:100%;min-height:80vh;border:0;"
+                                title="Work Tracker"></iframe>
                     </div>
                 </div>
             `;

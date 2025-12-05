@@ -11,7 +11,6 @@ if (!isAdmin($USER['role'] ?? '')) {
 }
 
 $id = isset($_POST['id']) && $_POST['id'] !== '' ? (int)$_POST['id'] : 0;
-$name = trim($_POST['name'] ?? '');
 $username = trim($_POST['username'] ?? '');
 $password = $_POST['password'] ?? '';
 $role_id = isset($_POST['role_id']) ? (int)$_POST['role_id'] : null;

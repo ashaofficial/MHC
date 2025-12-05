@@ -104,6 +104,17 @@ if (!hasRole($USER['role'] ?? '', 'consultant')) {
                         </div>
                     `;
                     break;
+                case 'work_tracker':
+                    contentArea.innerHTML = `
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body p-0">
+                                <iframe src="../tools/work_tracker.php"
+                                        style="width:100%;min-height:80vh;border:0;"
+                                        title="Work Tracker"></iframe>
+                            </div>
+                        </div>
+                    `;
+                    break;
                 default:
                     contentArea.innerHTML = '<h2>' + section + '</h2>';
             }

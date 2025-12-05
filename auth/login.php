@@ -16,7 +16,7 @@ if (!$username || !$password) {
 }
 
 // Query: credential -> users -> roles
-$sql = "SELECT c.id AS cred_id, c.user_id, c.password_hash, u.name AS user_name, u.id AS user_pk, r.role_name
+$sql = "SELECT c.id AS cred_id, c.user_id, c.password_hash, u.name AS user_name, u.id AS user_pk, u.status, r.role_name
         FROM credential c
         JOIN users u ON c.user_id = u.id
         LEFT JOIN roles r ON u.role_id = r.id
@@ -50,6 +50,13 @@ if (!$verified) {
 }
 
 // Create access token (short-lived)
+$userStatus = strtolower($user['status'] ?? '');
+if ($userStatus !== 'active') {
+    http_response_code(403);
+    echo json_encode(["status" => "error", "message" => "Your account is inactive. Contact administrator."]);
+    exit;
+}
+
 $payload = [
     "user_id" => (int)$user["user_id"],
     "username" => $username,

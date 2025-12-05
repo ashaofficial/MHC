@@ -39,7 +39,7 @@ function respond_fragment($payload, $ctype = 'text/html; charset=utf-8') {
 
 // ---------- Fetch data used by full page rendering ----------
 $users = [];
-$r = $conn->query("SELECT u.id, u.name, u.email, u.mobile, u.role_id, u.status, u.doj, u.dob, u.description, r.role_name, c.username AS username FROM users u LEFT JOIN roles r ON u.role_id = r.id LEFT JOIN credential c ON c.user_id = u.id ORDER BY u.id DESC");
+$r = $conn->query("SELECT u.id, u.name, u.email, u.mobile, u.role_id, u.status, u.doj, u.dob, u.description, u.photo, r.role_name, c.username AS username FROM users u LEFT JOIN roles r ON u.role_id = r.id LEFT JOIN credential c ON c.user_id = u.id ORDER BY u.id DESC");
 if ($r) while ($row = $r->fetch_assoc()) $users[] = $row;
 
 $roles = [];
@@ -71,13 +71,96 @@ if (!empty($_GET['editJson'])) {
 
 // ---------- Users fragment (table rows) ----------
 if (!empty($_GET['usersFragment'])) {
+    $allowedSortFields = ['profile', 'username', 'role'];
+    $sortField = strtolower($_GET['sortField'] ?? 'profile');
+    if (!in_array($sortField, $allowedSortFields, true)) {
+        $sortField = 'profile';
+    }
+    $sortDir = strtolower($_GET['sortDir'] ?? 'asc') === 'desc' ? 'DESC' : 'ASC';
+    switch ($sortField) {
+        case 'role':
+            $sortColumn = 'r.role_name';
+            break;
+        case 'username':
+            $sortColumn = 'c.username';
+            break;
+        default:
+            $sortColumn = 'u.name';
+            break;
+    }
+
+    $filterName = trim($_GET['filterName'] ?? '');
+    $filterMobile = trim($_GET['filterMobile'] ?? '');
+    $filterDoj = trim($_GET['filterDoj'] ?? '');
+
+    $sql = "SELECT u.id, u.name, u.email, u.mobile, u.role_id, u.status, u.doj, u.dob, u.description, u.photo, r.role_name, c.username AS username
+            FROM users u
+            LEFT JOIN roles r ON u.role_id = r.id
+            LEFT JOIN credential c ON c.user_id = u.id";
+
+    $where = [];
+    $params = [];
+    $types = '';
+
+    if ($filterName !== '') {
+        $where[] = "u.name LIKE ?";
+        $params[] = '%' . $filterName . '%';
+        $types   .= 's';
+    }
+    if ($filterMobile !== '') {
+        $where[] = "u.mobile LIKE ?";
+        $params[] = '%' . $filterMobile . '%';
+        $types   .= 's';
+    }
+    if ($filterDoj !== '') {
+        $where[] = "DATE(u.doj) = ?";
+        $params[] = $filterDoj;
+        $types   .= 's';
+    }
+
+    if (!empty($where)) {
+        $sql .= ' WHERE ' . implode(' AND ', $where);
+    }
+
+    $sql .= " ORDER BY {$sortColumn} {$sortDir}, u.id DESC";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        respond_fragment('<tr><td colspan="10" class="text-danger">Unable to load users.</td></tr>');
+    }
+
+    if (!empty($params)) {
+        $bindParams = [];
+        $bindParams[] = &$types;
+        foreach ($params as $key => $value) {
+            $bindParams[] = &$params[$key];
+        }
+        call_user_func_array([$stmt, 'bind_param'], $bindParams);
+    }
+
+    $stmt->execute();
+    $r2 = $stmt->get_result();
+
     $rowsOutput = '';
-    $r2 = $conn->query("SELECT u.id, u.name, u.email, u.mobile, u.role_id, u.status, u.doj, u.dob, u.description, r.role_name, c.username AS username FROM users u LEFT JOIN roles r ON u.role_id = r.id LEFT JOIN credential c ON c.user_id = u.id ORDER BY u.id DESC");
-    if ($r2) {
+    if ($r2 && $r2->num_rows) {
         while ($u = $r2->fetch_assoc()) {
+            // Generate avatar: show photo if available, otherwise show first letter of profile name
+            $username = $u['username'] ?? '';
+            $displayName = $u['name'] ?? '';
+            $firstLetterSource = $displayName !== '' ? $displayName : $username;
+            $firstLetter = strtoupper(mb_substr($firstLetterSource, 0, 1)) ?: 'U';
+            
+            // Check if user has a photo
+            if (!empty($u['photo'])) {
+                $photoData = base64_encode($u['photo']);
+                $avatar = '<div class="profile-avatar has-photo" style="background-image:url(\'data:image/jpeg;base64,' . $photoData . '\');"></div>';
+            } else {
+                $avatar = '<div class="profile-avatar profile-avatar--initial">' . htmlspecialchars($firstLetter) . '</div>';
+            }
+            
             $rowsOutput .= '<tr>';
-            $rowsOutput .= '<td>' . htmlspecialchars($u['name']) . '</td>';
-            $rowsOutput .= '<td>' . htmlspecialchars($u['username'] ?? '') . '</td>';
+            $rowsOutput .= '<td><div class="profile-cell">' . $avatar . '</div></td>';
+            $rowsOutput .= '<td>' . htmlspecialchars($username) . '</td>';
             $rowsOutput .= '<td>' . htmlspecialchars($u['role_name'] ?? '') . '</td>';
             $rowsOutput .= '<td>' . htmlspecialchars($u['email'] ?? '') . '</td>';
             $rowsOutput .= '<td>' . htmlspecialchars($u['mobile'] ?? '') . '</td>';
@@ -96,6 +179,7 @@ if (!empty($_GET['usersFragment'])) {
         $rowsOutput = '<tr><td colspan="10" class="text-muted">No users found</td></tr>';
     }
 
+    $stmt->close();
     respond_fragment($rowsOutput, 'text/html; charset=utf-8');
 }
 
@@ -149,7 +233,7 @@ if (!empty($_GET['rolesFragment'])) {
 // ---------- Consultants fragment ----------
 if (!empty($_GET['consultantsFragment'])) {
     $qc = $conn->query("SELECT c.user_id, c.specialization, u.name, u.email, u.status FROM consultants c JOIN users u ON u.id = c.user_id ORDER BY u.name");
-    $out = '<table class="table table-striped table-hover table-sm"><thead class="table-light"><tr><th>User</th><th>Email</th><th>Specialization</th><th>Status</th><th class="text-center">Actions</th></tr></thead><tbody>';
+    $out = '<table class="table table-striped table-hover table-sm"><thead class="table-light"><tr><th>User</th><th>Email</th><th>Specialization/Position</th><th>Status</th><th class="text-center">Actions</th></tr></thead><tbody>';
     if ($qc) {
         while ($row = $qc->fetch_assoc()) {
             $out .= '<tr>';
@@ -199,6 +283,21 @@ if (ob_get_length() !== false) ob_end_flush();
         /* minimal CSS tweak: collapsed role-contents should have transition */
         .role-contents.collapsed { max-height: 0; overflow: hidden; transition: max-height 300ms ease; }
         .role-contents { transition: max-height 300ms ease; }
+        
+        /* Sortable table header styling */
+        .sortable-header {
+            user-select: none;
+        }
+        .sort-icon {
+            font-size: 16px;
+            margin-left: 6px;
+            opacity: 0.6;
+            font-weight: bold;
+        }
+        .sortable-header:hover .sort-icon {
+            opacity: 1;
+            color: #0056b3;
+        }
     </style>
 </head>
 <body class="p-4">
@@ -378,7 +477,7 @@ if (ob_get_length() !== false) ob_end_flush();
                                 </select>
                         </div>
                         <div class="mb-2">
-                                <label class="form-label">Specialization</label>
+                                <label class="form-label">Specialization/Position</label>
                                 <input name="specialization" id="consultant_specialization" class="form-control" required>
                         </div>
                 </form>
@@ -424,6 +523,11 @@ function showToast(message, success = true) {
     }
 }
 
+// State for users table sorting/filtering
+let userSortField = 'profile';
+let userSortDir = 'asc';
+let userFilters = { name: '', mobile: '', doj: '' };
+
 // ---------- INITIAL LOAD + Tab handlers ----------
 document.addEventListener('DOMContentLoaded', () => {
     loadUsersPane(); // default
@@ -446,18 +550,34 @@ async function fetchFragmentSafe(url) {
 
 // ---------- Loaders ----------
 async function loadUsersPane() {
-    const el = document.getElementById('usersPane');
-    el.innerHTML = '<div class="text-muted">Loading users...</div>';
+    const pane = document.getElementById('usersPane');
+    if (!pane) return;
+
+    // refresh filter values from current inputs if they exist
+    const nameInput = document.getElementById('userFilterName');
+    const mobileInput = document.getElementById('userFilterMobile');
+    const dojInput = document.getElementById('userFilterDoj');
+    if (nameInput) userFilters.name = nameInput.value.trim();
+    if (mobileInput) userFilters.mobile = mobileInput.value.trim();
+    if (dojInput) userFilters.doj = dojInput.value.trim();
+
+    pane.innerHTML = '<div class="text-muted">Loading users...</div>';
+    const params = new URLSearchParams({
+        usersFragment: '1',
+        sortField: userSortField,
+        sortDir: userSortDir,
+        filterName: userFilters.name,
+        filterMobile: userFilters.mobile,
+        filterDoj: userFilters.doj
+    });
+
     try {
-        const rows = await fetchFragmentSafe('settings.php?usersFragment=1');
-        el.innerHTML = `
-            <table class="table table-striped table-hover table-sm">
-                <thead class="table-light"><tr><th>Name</th><th>Username</th><th>Role</th><th>Email</th><th>Mobile</th><th>Date of Joining</th><th>Date of Birth</th><th>Description</th><th>Status</th><th class="text-center">Actions</th></tr></thead>
-                <tbody>${rows}</tbody>
-            </table>`;
+        const rows = await fetchFragmentSafe('settings.php?' + params.toString());
+        renderUsersPaneContent(pane, rows);
         bindUserButtons();
+        bindUserFilterControls();
     } catch (err) {
-        el.innerHTML = '<div class="text-danger">Failed to load users.</div>';
+        pane.innerHTML = '<div class="text-danger">Failed to load users.</div>';
     }
 }
 
@@ -756,6 +876,103 @@ function bindRoleButtons() {
     });
 }
 
+function renderUsersPaneContent(container, rowsHTML) {
+    container.innerHTML = `
+        <form id="userFilterForm" class="user-filter-inline mb-3">
+            <div class="filter-field">
+                <label class="form-label">Profile</label>
+                <input type="text" class="form-control form-control-sm" id="userFilterName" placeholder="Search profile..." value="${userFilters.name || ''}">
+            </div>
+            <div class="filter-field">
+                <label class="form-label">Mobile</label>
+                <input type="text" class="form-control form-control-sm" id="userFilterMobile" placeholder="Search mobile..." value="${userFilters.mobile || ''}">
+            </div>
+            <div class="filter-field filter-field--short">
+                <label class="form-label">Date of Joining</label>
+                <input type="date" class="form-control form-control-sm" id="userFilterDoj" value="${userFilters.doj || ''}">
+            </div>
+            <div class="filter-actions">
+                <button type="submit" class="btn btn-primary btn-sm me-2"><i class="fas fa-filter"></i> Apply</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="resetUserFilters"><i class="fas fa-undo"></i> Reset</button>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm" id="usersTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Profile</th>
+                        <th>
+                            <button type="button" class="btn btn-link p-0 user-sort-btn" data-field="username">
+                                Username <span class="sort-icon" data-field="username">${getUserSortIcon('username')}</span>
+                            </button>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-link p-0 user-sort-btn" data-field="role">
+                                Role <span class="sort-icon" data-field="role">${getUserSortIcon('role')}</span>
+                            </button>
+                        </th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>DOJ</th>
+                        <th>DOB</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>${rowsHTML}</tbody>
+            </table>
+        </div>
+    `;
+}
+
+function bindUserFilterControls() {
+    const form = document.getElementById('userFilterForm');
+    const nameInput = document.getElementById('userFilterName');
+    const mobileInput = document.getElementById('userFilterMobile');
+    const dojInput = document.getElementById('userFilterDoj');
+    if (nameInput) nameInput.value = userFilters.name || '';
+    if (mobileInput) mobileInput.value = userFilters.mobile || '';
+    if (dojInput) dojInput.value = userFilters.doj || '';
+
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            userFilters.name = nameInput ? nameInput.value.trim() : '';
+            userFilters.mobile = mobileInput ? mobileInput.value.trim() : '';
+            userFilters.doj = dojInput ? dojInput.value.trim() : '';
+            loadUsersPane();
+        });
+    }
+
+    const resetBtn = document.getElementById('resetUserFilters');
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            userFilters = { name: '', mobile: '', doj: '' };
+            loadUsersPane();
+        });
+    }
+
+    document.querySelectorAll('.user-sort-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const field = btn.dataset.field;
+            if (!field) return;
+            if (userSortField === field) {
+                userSortDir = userSortDir === 'asc' ? 'desc' : 'asc';
+            } else {
+                userSortField = field;
+                userSortDir = 'asc';
+            }
+            loadUsersPane();
+        });
+    });
+}
+
+function getUserSortIcon(field) {
+    if (userSortField !== field) return '⇅';
+    return userSortDir === 'asc' ? '↑' : '↓';
+}
+
 function bindConsultantButtons() {
     const addConsultantBtn = document.getElementById('addConsultantBtn');
     if (addConsultantBtn) {
@@ -814,6 +1031,92 @@ function bindConsultantButtons() {
             }
         };
     });
+}
+
+// ---------- Sortable Table Headers ----------
+function initSortableHeaders() {
+    document.querySelectorAll('.sortable-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+            if (e.target.classList.contains('sort-icon') || e.target.parentElement.classList.contains('sortable-header')) {
+                showSortMenu(header);
+            }
+        });
+    });
+}
+
+function showSortMenu(headerEl) {
+    const column = headerEl.getAttribute('data-column');
+    const existingMenu = document.getElementById('sortMenu');
+    if (existingMenu) existingMenu.remove();
+
+    const menu = document.createElement('div');
+    menu.id = 'sortMenu';
+    menu.style.cssText = `
+        position: fixed;
+        background: white;
+        border: 1px solid #999;
+        border-radius: 4px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        z-index: 10000;
+        min-width: 160px;
+    `;
+
+    const rect = headerEl.getBoundingClientRect();
+    menu.style.top = (rect.bottom + 8) + 'px';
+    menu.style.left = (rect.left) + 'px';
+
+    menu.innerHTML = `
+        <div style="padding: 8px 0;">
+            <button style="display:block;width:100%;padding:10px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;" onmouseover="this.style.background='#e8e8e8'" onmouseout="this.style.background='none'" onclick="sortTable('${column}', 'asc'); document.getElementById('sortMenu').remove();">
+                ↑ Ascending
+            </button>
+            <button style="display:block;width:100%;padding:10px 16px;border:none;background:none;text-align:left;cursor:pointer;font-size:14px;" onmouseover="this.style.background='#e8e8e8'" onmouseout="this.style.background='none'" onclick="sortTable('${column}', 'desc'); document.getElementById('sortMenu').remove();">
+                ↓ Descending
+            </button>
+        </div>
+    `;
+
+    document.body.appendChild(menu);
+
+    setTimeout(() => {
+        document.addEventListener('click', closeSortMenu, { once: true });
+    }, 0);
+}
+
+function closeSortMenu() {
+    const menu = document.getElementById('sortMenu');
+    if (menu) menu.remove();
+}
+
+function sortTable(column, direction) {
+    const table = document.getElementById('usersTable');
+    if (!table) return;
+
+    const tbody = table.querySelector('tbody');
+    if (!tbody) return;
+
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const columnIndex = getColumnIndex(column);
+
+    if (columnIndex === -1) return;
+
+    rows.sort((a, b) => {
+        const aVal = a.cells[columnIndex].textContent.trim();
+        const bVal = b.cells[columnIndex].textContent.trim();
+
+        if (direction === 'asc') {
+            return aVal.localeCompare(bVal);
+        } else {
+            return bVal.localeCompare(aVal);
+        }
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+}
+
+function getColumnIndex(column) {
+    const colMap = { 'avatar': 0, 'username': 1, 'role': 2 };
+    return colMap[column] !== undefined ? colMap[column] : -1;
 }
 </script>
 </body>
