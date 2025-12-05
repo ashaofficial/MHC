@@ -1,0 +1,88 @@
+/* Settings page specific styles */
+
+/* Role header styles: collapsed shows simple light header with black text; expanded shows gradient with white text */
+.role-header {
+    background: #f8f9fa;
+    color: #000;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    padding-right: 3rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.role-header.collapsed {
+    min-height: 50px;
+    max-height: 50px;
+    overflow: hidden;
+}
+
+.role-header.expanded {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    min-height: 50px;
+}
+
+.role-header .role-title {
+    margin: 0;
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+.role-toggle {
+    border-radius: 6px;
+    flex-shrink: 0;
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.role-contents {
+    transition: max-height 0.35s ease;
+    overflow: hidden;
+    padding: 1rem 1.25rem;
+}
+
+.role-contents.collapsed {
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Ensure inner items look good when collapsed/expanded */
+.role-block {
+    max-width: 500px;
+    margin-bottom: 0.75rem;
+}
+
+.role-block .card {
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.role-block .card-header {
+    padding: 0.75rem 1rem;
+}
+
+
+.role-contents .d-flex {
+    padding: 0.5rem 0;
+    margin: 0;
+}
+
+.role-contents .border-bottom {
+    padding-bottom: 0.75rem;
+    margin-bottom: 0;
+}
+
+.role-contents .d-flex:last-child .border-bottom {
+    border-bottom: none !important;
+    padding-bottom: 0.5rem !important;
+}
+

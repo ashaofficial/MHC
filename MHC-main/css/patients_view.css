@@ -1,0 +1,222 @@
+/* -------- THEME VARIABLES -------- */
+:root {
+    --green-dark: #022612;
+    --green-dark-2: #06361d;
+    --green-main: #0e7c3f;
+    --green-soft: #d5f0df;
+    --green-pale: #f6f7e7;
+    --text-main: #1e293b;
+    --text-muted: #6b7280;
+    --card-bg: #f1f5f9;
+    --border-soft: #d1d5db;
+    --white: #ffffff;
+}
+
+/* -------- GLOBAL -------- */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Cambria, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #e2f0e8;
+    color: var(--text-main);
+}
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* -------- MAIN CONTENT -------- */
+
+.main-content {
+    flex: 1;
+    padding: 24px 36px 40px;
+    background: #e2f0e8;
+}
+
+/* top bar */
+
+.main-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.page-title {
+    margin: 0;
+    font-size: 28px;
+    color: #064e3b;
+}
+
+.welcome-text {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+.current-date {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* -------- FILTER BAR -------- */
+
+.filter-bar {
+    background: #e8f3ec;
+    border-radius: 18px;
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+/* everything in one straight line */
+.filter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: nowrap; /* desktop: keep in one row */
+}
+
+/* search box group */
+.input-group {
+    position: relative;
+}
+
+/* shorter search box */
+.search-group input {
+    width: 260px;
+}
+
+/* date inputs */
+.date-group input {
+    width: 150px;
+}
+
+.input-group input,
+.input-group select {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(148, 163, 184, 0.7);
+    background: #f9fafb;
+    font-size: 14px;
+    outline: none;
+}
+
+/* buttons */
+
+.btn {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn.primary {
+    background: var(--green-main);
+    color: var(--white);
+}
+
+.btn.primary:hover {
+    filter: brightness(0.95);
+}
+
+.btn.secondary {
+    background: #4b5563;
+    color: #e5e7eb;
+}
+
+.btn.secondary:hover {
+    filter: brightness(0.95);
+}
+
+/* patient cards */
+
+.patient-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.patient-result-card {
+    background: #99b5a5ff;
+    padding: 16px;
+    border-radius: 14px;
+    border: 1px solid #1c4c2dff;
+    margin-bottom: 12px;
+    transition: 0.2s;
+}
+
+.patient-result-card:hover {
+    transform: scale(1.005);
+    background: #f6f9f7ff;
+}
+
+/* small styling for visit date on right */
+.visit-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.visit-date {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--green-dark-2);
+}
+
+/* -------- RESPONSIVE -------- */
+
+@media (max-width: 900px) {
+    .filter-form {
+        flex-wrap: wrap;              /* on smaller screens, allow wrap */
+        justify-content: flex-start;
+    }
+
+    .search-group input {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .date-group input {
+        width: 100%;
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 16px;
+    }
+
+    .filter-bar {
+        padding: 10px 12px;
+    }
+
+    .filter-form {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .filter-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .search-group input,
+    .date-group input {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+}
